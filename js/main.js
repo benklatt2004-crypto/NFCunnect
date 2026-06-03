@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initCountUp();
   initKontakt();
-  initSwatches();
+  initThumbs();
 });
 
 /* ══════════════════════════════
@@ -188,25 +188,22 @@ function initKontakt() {
 }
 
 /* ══════════════════════════════
-   Produkt – Finish-Varianten (ein Produkt, mehrere Looks)
+   Produkt – Bild-Eindrücke (Thumbnail-Galerie)
    ══════════════════════════════ */
-function initSwatches() {
-  const swatches = document.querySelectorAll('.swatch');
-  const mainImg  = document.getElementById('produkt-main');
-  const label    = document.getElementById('produkt-finish');
-  if (!swatches.length || !mainImg) return;
+function initThumbs() {
+  const thumbs  = document.querySelectorAll('.thumb');
+  const mainImg = document.getElementById('produkt-main');
+  if (!thumbs.length || !mainImg) return;
 
-  swatches.forEach(sw => {
-    sw.addEventListener('click', () => {
-      const newSrc = sw.dataset.img;
+  thumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const newSrc = thumb.dataset.img;
       if (mainImg.getAttribute('src') === newSrc) return;
 
       // sanfte Überblendung
       mainImg.style.opacity = '0';
       const swap = () => {
         mainImg.src = newSrc;
-        mainImg.alt = `NFCunnect Anhänger – Finish ${sw.dataset.finish}`;
-        if (label) label.textContent = sw.dataset.finish;
         mainImg.style.opacity = '1';
         mainImg.removeEventListener('transitionend', swap);
       };
@@ -214,8 +211,8 @@ function initSwatches() {
       // Fallback falls keine Transition feuert
       setTimeout(() => { if (mainImg.style.opacity === '0') swap(); }, 220);
 
-      swatches.forEach(s => s.classList.remove('swatch--active'));
-      sw.classList.add('swatch--active');
+      thumbs.forEach(t => t.classList.remove('thumb--active'));
+      thumb.classList.add('thumb--active');
     });
   });
 }
