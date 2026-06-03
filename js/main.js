@@ -11,7 +11,7 @@ const MAIL = 'nfcunnect@outlook.com';
    Solange hier 'DEIN-ACCESS-KEY' steht, öffnet sich als Fallback
    weiterhin das Mailprogramm.
    ════════════════════════════════════════════════════════════ */
-const WEB3FORMS_KEY = 'DEIN-ACCESS-KEY';
+const WEB3FORMS_KEY = 'a4bbb1a1-e07c-46e8-a015-ccc167ac1241';
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('jahr').textContent = new Date().getFullYear();
