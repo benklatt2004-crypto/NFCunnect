@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NFCunnect – Let's Cunnect</title>
+  <meta name="description" content="Kupfer-Schlüsselanhänger mit programmierbarem NFC-Chip. Einmal scannen, sofort verbunden." />
+  <link rel="icon" href="assets/logo-original.png" type="image/png" />
+
+  <!-- Fonts: Montserrat Alternates (Display) · Montserrat (UI) · Space Mono (Tech) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600;700;800;900&family=Montserrat:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons: Lucide -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Scroll-Fortschrittsbalken -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ── Header ── -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a href="#" class="header__brand" data-tab="home" aria-label="NFCunnect Startseite">
+        <img src="assets/logo-wordmark.png" alt="NFCunnect" class="header__logo" />
+      </a>
+      <nav class="tabs" aria-label="Seiten-Navigation">
+        <button class="tab tab--active" data-tab="home">Start</button>
+        <button class="tab" data-tab="produkt">Produkt</button>
+        <button class="tab" data-tab="galerie">Galerie</button>
+        <button class="tab" data-tab="ueber">Über uns</button>
+        <button class="tab" data-tab="kontakt">Kontakt</button>
+      </nav>
+      <button class="burger" aria-label="Menü öffnen" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" aria-hidden="true">
+      <button class="tab" data-tab="home">Start</button>
+      <button class="tab" data-tab="produkt">Produkt</button>
+      <button class="tab" data-tab="galerie">Galerie</button>
+      <button class="tab" data-tab="ueber">Über uns</button>
+      <button class="tab" data-tab="kontakt">Kontakt</button>
+    </div>
+  </header>
+
+  <main class="pages">
+
+    <!-- ══ HOME ══════════════════════════════════════════════════════════ -->
+    <section class="page page--active" id="page-home" aria-label="Startseite">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero__night" aria-hidden="true">
+          <div class="hero__glow"></div>
+          <img src="assets/logo-original.png" alt="" class="hero__mark" />
+        </div>
+        <div class="hero__content">
+          <p class="overline">Juniorfirma · Hamburg · Aurubis</p>
+          <h1 class="display">Let's<br><em>Cunnect.</em></h1>
+          <p class="hero__sub">
+            Einmal dranhalten. Dein Profil ist geteilt.<br>
+            Kein Papier, keine App, kein Aufwand.
+          </p>
+          <div class="hero__typewriter" aria-live="polite">
+            Perfekt für <span id="typewriter-word" class="hero__typed"></span>
+          </div>
+          <div class="hero__actions">
+            <button class="btn btn--primary" data-tab="produkt">
+              <i data-lucide="package"></i> Produkt entdecken
+            </button>
+            <button class="btn btn--ghost" data-tab="kontakt">
+              <i data-lucide="mail"></i> Kontakt
+            </button>
+          </div>
+        </div>
+        <div class="hero__visual" aria-hidden="true">
+          <div class="product-tilt" id="hero-tilt">
+            <img src="assets/chip-dunkel.jpg" alt="" class="hero__product" />
+            <div class="product-tilt__glow"></div>
+          </div>
+          <div class="nfc-ripple" aria-hidden="true">
+            <div class="ripple r1"></div>
+            <div class="ripple r2"></div>
+            <div class="ripple r3"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem-Sektion -->
+      <div class="problem-section">
+        <div class="problem-inner">
+          <p class="overline">Das Problem</p>
+          <h2>Visitenkarten gehen verloren.<br>Deine nicht.</h2>
+          <div class="problem-grid">
+            <div class="problem-card problem-card--old">
+              <i data-lucide="file-x"></i>
+              <h3>Bisher</h3>
+              <ul>
+                <li>Visitenkarten gehen verloren</li>
+                <li>QR-Codes sind unflexibel</li>
+                <li>Daten ändern sich, Druck nicht</li>
+                <li>Papier, Druck, Müll</li>
+              </ul>
+            </div>
+            <div class="problem-divider" aria-hidden="true">
+              <div class="problem-divider__line"></div>
+              <i data-lucide="zap"></i>
+            </div>
+            <div class="problem-card problem-card--new">
+              <i data-lucide="check-circle"></i>
+              <h3>Mit NFCunnect</h3>
+              <ul>
+                <li>Immer dabei, nie verloren</li>
+                <li>Inhalt jederzeit änderbar</li>
+                <li>Einmal scannen, fertig</li>
+                <li>Kein Papier, kein Müll</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wie es funktioniert -->
+      <div class="how-section">
+        <div class="how-inner">
+          <p class="overline">So einfach geht's</p>
+          <h2>Drei Sekunden.<br>Cunnected.</h2>
+          <div class="how-steps">
+            <div class="how-step" data-step="0">
+              <div class="how-step__num mono">01</div>
+              <div class="how-step__icon">
+                <i data-lucide="smartphone-nfc"></i>
+              </div>
+              <h3>Handy dranhalten</h3>
+              <p>Kein Entsperren, keine App. Handy an den Anhänger halten.</p>
+            </div>
+            <div class="how-connector" aria-hidden="true">
+              <svg viewBox="0 0 60 12" fill="none"><path d="M0 6 Q30 0 60 6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/></svg>
+            </div>
+            <div class="how-step" data-step="1">
+              <div class="how-step__num mono">02</div>
+              <div class="how-step__icon">
+                <i data-lucide="scan"></i>
+              </div>
+              <h3>Chip scannen</h3>
+              <p>Das Gerät liest den Chip und öffnet deinen Link sofort.</p>
+            </div>
+            <div class="how-connector" aria-hidden="true">
+              <svg viewBox="0 0 60 12" fill="none"><path d="M0 6 Q30 0 60 6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/></svg>
+            </div>
+            <div class="how-step" data-step="2">
+              <div class="how-step__num mono">03</div>
+              <div class="how-step__icon">
+                <i data-lucide="user-check"></i>
+              </div>
+              <h3>Cunnected</h3>
+              <p>Dein Profil, dein Link, deine Visitenkarte. Sofort da.</p>
+            </div>
+          </div>
+          <button class="btn btn--tap" id="tap-demo" aria-label="NFC-Tap ausprobieren">
+            <i data-lucide="wifi"></i> NFC-Tap ausprobieren
+          </button>
+          <p class="tap-hint" id="tap-hint" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <!-- Nachhaltigkeit-Banner -->
+      <div class="sustain-banner">
+        <div class="sustain-inner">
+          <i data-lucide="recycle"></i>
+          <p><strong>Recyceltes Kupfer von Aurubis.</strong> Kein Papier, kein Druck, kein Müll. Der Chip ist unbegrenzt neu beschreibbar.</p>
+        </div>
+      </div>
+
+      <!-- Globus-Sektion -->
+      <div class="globe-section">
+        <div class="globe-section__head">
+          <p class="overline">Smart Networking</p>
+          <h2>Weltweit cunnected.</h2>
+          <p class="globe-section__sub">
+            Ob Messe in Hamburg oder Pitch in München. Ein Scan genügt, und dein Profil ist geteilt.
+          </p>
+        </div>
+        <div class="globe-wrap">
+          <div class="globe" aria-hidden="true">
+            <svg class="globe-svg" viewBox="0 0 400 400" role="img">
+              <defs>
+                <radialGradient id="sphere" cx="38%" cy="34%" r="75%">
+                  <stop offset="0%"  stop-color="#F0926B" />
+                  <stop offset="42%" stop-color="#E0741A" />
+                  <stop offset="78%" stop-color="#C25C0E" />
+                  <stop offset="100%" stop-color="#5A2504" />
+                </radialGradient>
+                <radialGradient id="glow-outer" cx="50%" cy="50%" r="50%">
+                  <stop offset="60%" stop-color="rgba(224,116,26,0)" />
+                  <stop offset="100%" stop-color="rgba(224,116,26,.3)" />
+                </radialGradient>
+              </defs>
+              <circle cx="200" cy="200" r="195" fill="url(#glow-outer)" />
+              <circle cx="200" cy="200" r="160" fill="url(#sphere)" />
+              <g class="globe-lat" stroke="rgba(255,255,255,.35)" stroke-width="1" fill="none">
+                <ellipse cx="200" cy="200" rx="160"   ry="22" />
+                <ellipse cx="200" cy="160" rx="154.9" ry="20" />
+                <ellipse cx="200" cy="240" rx="154.9" ry="20" />
+                <ellipse cx="200" cy="120" rx="138.6" ry="17" />
+                <ellipse cx="200" cy="280" rx="138.6" ry="17" />
+                <ellipse cx="200" cy="80"  rx="105.8" ry="13" />
+                <ellipse cx="200" cy="320" rx="105.8" ry="13" />
+              </g>
+              <g class="globe-lon" stroke="rgba(255,255,255,.3)" stroke-width="1" fill="none">
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:0s"    />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-1.2s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-2.4s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-3.6s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-4.8s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-6s"   />
+              </g>
+              <g class="globe-arcs" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+                <path d="M120,130 Q200,40 290,150"  style="--len:340;--d:0s"   />
+                <path d="M95,230  Q200,330 300,250"  style="--len:360;--d:.8s"  />
+                <path d="M150,95  Q300,160 280,300"  style="--len:380;--d:1.6s" />
+                <path d="M110,290 Q120,160 250,100"  style="--len:360;--d:2.4s" />
+              </g>
+              <g class="globe-nodes">
+                <circle cx="120" cy="130" r="5" /><circle cx="290" cy="150" r="5" />
+                <circle cx="95"  cy="230" r="5" /><circle cx="300" cy="250" r="5" />
+                <circle cx="150" cy="95"  r="5" /><circle cx="280" cy="300" r="5" />
+                <circle cx="250" cy="100" r="5" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══ PRODUKT ════════════════════════════════════════════════════════ -->
+    <section class="page" id="page-produkt" aria-label="Produkt">
+      <div class="page-inner">
+        <div class="page-head">
+          <p class="overline">Unser Produkt</p>
+          <h2>Ein Anhänger.<br>Unendlich viele Möglichkeiten.</h2>
+        </div>
+        <div class="produkt-grid">
+          <div class="produkt-media">
+            <div class="produkt-stage" id="produkt-tilt">
+              <img id="produkt-main" src="assets/chip-dunkel.jpg" alt="NFCunnect Kupfer-Anhänger mit NFC-Chip" />
+              <div class="produkt-stage__glow" aria-hidden="true"></div>
+            </div>
+            <div class="thumbs" role="group" aria-label="Weitere Eindrücke">
+              <button class="thumb thumb--active" data-img="assets/chip-dunkel.jpg"><img src="assets/chip-dunkel.jpg" alt="" /></button>
+              <button class="thumb" data-img="assets/chip-orange.jpg"><img src="assets/chip-orange.jpg" alt="" /></button>
+              <button class="thumb" data-img="assets/chip-weiss.jpg"><img src="assets/chip-weiss.jpg" alt="" /></button>
+              <button class="thumb" data-img="assets/chip-beige.jpg"><img src="assets/chip-beige.jpg" alt="" /></button>
+              <button class="thumb" data-img="assets/chip-slate.jpg"><img src="assets/chip-slate.jpg" alt="" /></button>
+            </div>
+            <p class="variant-note mono">Jedes Stück — von Hand gefertigt.</p>
+          </div>
+          <ul class="feature-list">
+            <li class="feature reveal">
+              <div class="feature__icon"><i data-lucide="layers"></i></div>
+              <div>
+                <h3>Aus echtem Kupfer</h3>
+                <p>Recyceltes Kupfer von Aurubis, Hamburg. Das Material fühlt sich gut an und fällt auf.</p>
+              </div>
+            </li>
+            <li class="feature reveal">
+              <div class="feature__icon"><i data-lucide="smartphone-nfc"></i></div>
+              <div>
+                <h3>Einfach dranhalten</h3>
+                <p>Kein App-Download, kein QR-Code. Handy an den Chip halten und fertig. Läuft auf jedem iPhone und Android.</p>
+              </div>
+            </li>
+            <li class="feature reveal">
+              <div class="feature__icon"><i data-lucide="refresh-cw"></i></div>
+              <div>
+                <h3>Du bestimmst den Inhalt</h3>
+                <p>Hinterlege einen Link, deine Kontaktdaten oder dein Social-Media-Profil. Jederzeit neu beschreibbar.</p>
+              </div>
+            </li>
+            <li class="feature reveal">
+              <div class="feature__icon"><i data-lucide="fingerprint"></i></div>
+              <div>
+                <h3>Auf Wunsch individuell</h3>
+                <p>Eigenes Design ist möglich. So gleicht kein Anhänger dem anderen.</p>
+              </div>
+            </li>
+            <li class="feature reveal">
+              <div class="feature__icon"><i data-lucide="leaf"></i></div>
+              <div>
+                <h3>Nachhaltig</h3>
+                <p>Kein Papier, kein Druck. Der Chip ist unbegrenzt neu beschreibbar — kein Wegwerfprodukt.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Chip-Spezifikation (Space Mono) -->
+        <div class="chip-spec">
+          <p class="overline">Technische Details</p>
+          <div class="chip-spec__grid">
+            <div class="chip-spec__item">
+              <span class="chip-spec__label">Typ</span>
+              <span class="chip-spec__val mono">NFC Type 2</span>
+            </div>
+            <div class="chip-spec__item">
+              <span class="chip-spec__label">Standard</span>
+              <span class="chip-spec__val mono">ISO 14443-A</span>
+            </div>
+            <div class="chip-spec__item">
+              <span class="chip-spec__label">Kompatibilität</span>
+              <span class="chip-spec__val mono">iOS &amp; Android</span>
+            </div>
+            <div class="chip-spec__item">
+              <span class="chip-spec__label">Beschreibbar</span>
+              <span class="chip-spec__val mono">∞ Mal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ GALERIE ════════════════════════════════════════════════════════ -->
+    <section class="page" id="page-galerie" aria-label="Galerie">
+      <div class="page-inner">
+        <div class="page-head">
+          <p class="overline">Use Cases</p>
+          <h2>So nutzt du deinen Anhänger.</h2>
+          <p class="page-head__sub">Karte umdrehen und entdecken.</p>
+        </div>
+        <div class="galerie-grid">
+
+          <div class="flip-card reveal">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <div class="flip-card__art">
+                  <i data-lucide="users" class="art-icon"></i>
+                </div>
+                <span class="card-label">Menschen verbinden</span>
+              </div>
+              <div class="flip-card__back">
+                <i data-lucide="users" class="back-lucide"></i>
+                <h3>Menschen verbinden</h3>
+                <p>Du lernst jemanden kennen, hältst den Anhänger ans Handy und schon hat die andere Person deine Daten.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card reveal">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <div class="flip-card__art">
+                  <i data-lucide="instagram" class="art-icon"></i>
+                </div>
+                <span class="card-label">Social Media</span>
+              </div>
+              <div class="flip-card__back">
+                <i data-lucide="instagram" class="back-lucide"></i>
+                <h3>Social Media</h3>
+                <p>Instagram, TikTok oder dein ganzes Linktree teilen. Ein Scan reicht — niemand muss deinen Namen suchen.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card reveal">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <div class="flip-card__art">
+                  <i data-lucide="contact" class="art-icon"></i>
+                </div>
+                <span class="card-label">Visitenkarte</span>
+              </div>
+              <div class="flip-card__back">
+                <i data-lucide="contact" class="back-lucide"></i>
+                <h3>Digitale Visitenkarte</h3>
+                <p>Name, Nummer, Mail und LinkedIn landen mit einem Scan direkt im Adressbuch deines Gegenübers.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card reveal">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <div class="flip-card__art">
+                  <i data-lucide="wifi" class="art-icon"></i>
+                </div>
+                <span class="card-label">WLAN</span>
+              </div>
+              <div class="flip-card__back">
+                <i data-lucide="wifi" class="back-lucide"></i>
+                <h3>WLAN teilen</h3>
+                <p>Gäste tippen den Anhänger an und sind im Netz. Kein Passwort ansagen — praktisch im Café, Büro und zu Hause.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card reveal">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <div class="flip-card__art">
+                  <i data-lucide="star" class="art-icon"></i>
+                </div>
+                <span class="card-label">Bewertungen</span>
+              </div>
+              <div class="flip-card__back">
+                <i data-lucide="star" class="back-lucide"></i>
+                <h3>Bewertungen sammeln</h3>
+                <p>Leg den Anhänger an die Theke. Deine Kunden landen mit einem Scan direkt bei der Google-Bewertung.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card reveal">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <div class="flip-card__art">
+                  <i data-lucide="calendar-check" class="art-icon"></i>
+                </div>
+                <span class="card-label">Event &amp; Messe</span>
+              </div>
+              <div class="flip-card__back">
+                <i data-lucide="calendar-check" class="back-lucide"></i>
+                <h3>Event &amp; Messe</h3>
+                <p>Teile Infos, Tickets oder das Line-up vor Ort. Für die nächste Aktion beschreibst du den Chip einfach neu.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ÜBER UNS ════════════════════════════════════════════════════════ -->
+    <section class="page" id="page-ueber" aria-label="Über uns">
+      <div class="page-inner page-inner--center">
+        <div class="page-head">
+          <p class="overline">Wer wir sind</p>
+          <h2>Über uns</h2>
+        </div>
+        <div class="ueber-grid">
+          <div class="ueber-text reveal">
+            <p>
+              Wir sind <strong>NFCunnect</strong>, eine Juniorfirma aus dem
+              Innovations- und Ausbildungszentrum von <strong>Aurubis AG</strong>
+              in Hamburg. Wir bauen Kupfer-Anhänger mit NFC-Chip: selbst gestaltet,
+              selbst programmiert und selbst verkauft.
+            </p>
+            <p>
+              Jeder Anhänger ist aus recyceltem Kupfer — das Material, das Aurubis
+              verarbeitet. Die Idee: Ein alltäglicher Gegenstand wird mit einem
+              kurzen Scan zur Verbindung zwischen Menschen.
+            </p>
+            <div class="ueber-values">
+              <span class="value-pill"><i data-lucide="link-2"></i> Verbindung</span>
+              <span class="value-pill"><i data-lucide="zap"></i> Einfachheit</span>
+              <span class="value-pill"><i data-lucide="shield-check"></i> Qualität</span>
+              <span class="value-pill"><i data-lucide="leaf"></i> Nachhaltigkeit</span>
+            </div>
+            <button class="btn btn--primary" data-tab="kontakt" style="margin-top:1.8rem">
+              <i data-lucide="mail"></i> Kontakt aufnehmen
+            </button>
+          </div>
+          <div class="stats">
+            <div class="stat reveal">
+              <span class="stat__num mono" data-target="100">0</span><span class="stat__suffix mono">+</span>
+              <p>Anhänger produziert</p>
+            </div>
+            <div class="stat reveal">
+              <span class="stat__num mono" data-target="1">0</span>
+              <p>Juniorfirma</p>
+            </div>
+            <div class="stat reveal">
+              <span class="stat__num mono" data-target="100">0</span><span class="stat__suffix mono">%</span>
+              <p>Recyceltes Kupfer</p>
+            </div>
+            <div class="stat reveal">
+              <span class="stat__num mono" data-target="1">0</span>
+              <p>Scan genügt</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ KONTAKT ════════════════════════════════════════════════════════ -->
+    <section class="page" id="page-kontakt" aria-label="Kontakt">
+      <div class="page-inner page-inner--center">
+        <div class="page-head">
+          <p class="overline">Let's Cunnect</p>
+          <h2>Schreib uns.</h2>
+          <p class="page-head__sub">Interesse, Fragen, Bestellung — meld dich einfach.</p>
+        </div>
+        <div class="kontakt-card reveal">
+          <form id="kontakt-form" novalidate>
+            <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div class="field-row">
+              <div class="field">
+                <label for="k-name">Name</label>
+                <input type="text" id="k-name" name="name" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="k-email">Deine E-Mail</label>
+                <input type="email" id="k-email" name="email" required autocomplete="email" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="k-betreff">Betreff</label>
+              <input type="text" id="k-betreff" name="betreff" placeholder="z.B. Anfrage Bestellung" />
+            </div>
+            <div class="field">
+              <label for="k-nachricht">
+                Nachricht
+                <span class="char-count" id="char-count">0 / 500</span>
+              </label>
+              <textarea id="k-nachricht" name="nachricht" rows="5" required maxlength="500"></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">
+              <i data-lucide="send"></i> Nachricht senden
+            </button>
+            <p class="form-status" id="kontakt-status" role="status"></p>
+          </form>
+          <div class="kontakt-direkt">
+            <a href="mailto:nfcunnect@outlook.com" class="kontakt-mail-link">
+              <i data-lucide="mail"></i>
+              nfcunnect@outlook.com
+            </a>
+            <div class="kontakt-social">
+              <a href="https://instagram.com/nfcunnect" target="_blank" rel="noopener" aria-label="Instagram">
+                <i data-lucide="instagram"></i>
+              </a>
+              <a href="https://linkedin.com/company/nfcunnect" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <i data-lucide="linkedin"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <img src="assets/logo-wordmark.png" alt="NFCunnect" class="footer__logo" />
+      <div class="footer__links">
+        <a href="mailto:nfcunnect@outlook.com" class="footer__mail">nfcunnect@outlook.com</a>
+        <span class="footer__sep">·</span>
+        <span class="footer__addr">Hovestraße 50, 20539 Hamburg</span>
+      </div>
+      <p class="footer__copy">© <span id="jahr"></span> NFCunnect – Juniorfirma</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
