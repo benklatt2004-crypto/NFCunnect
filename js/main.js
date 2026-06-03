@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initProduktTilt();
   initHowSteps();
   initTapDemo();
-  initNfcShare();
   initTypewriter();
   initReveal();
 });
@@ -297,46 +296,6 @@ function countUp(el) {
   requestAnimationFrame(run);
 }
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-/* ══════════════════════════════
-   NFC Share Zone
-   ══════════════════════════════ */
-function initNfcShare() {
-  const btn = document.getElementById('nfc-share-btn');
-  const sub = document.getElementById('nfc-share-sub');
-  if (!btn || !sub) return;
-
-  const defaultText = sub.textContent;
-  let busy = false;
-
-  btn.addEventListener('click', async () => {
-    if (busy) return;
-    busy = true;
-    btn.classList.add('sharing');
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'NFCunnect',
-          text: 'Smarte NFC-Anhänger für dein digitales Netzwerk.',
-          url: window.location.origin,
-        });
-        sub.textContent = 'Geteilt!';
-        sub.classList.add('ok');
-      } else {
-        await navigator.clipboard.writeText(window.location.origin);
-        sub.textContent = 'Link kopiert!';
-        sub.classList.add('ok');
-      }
-    } catch { /* user cancelled — silently reset */ }
-
-    await delay(2200);
-    sub.textContent = defaultText;
-    sub.classList.remove('ok');
-    btn.classList.remove('sharing');
-    busy = false;
-  });
-}
 
 /* ══════════════════════════════
    Kontaktformular – Web3Forms
