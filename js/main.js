@@ -2,12 +2,24 @@
 
 const MAIL = 'nfcunnect@outlook.com';
 
+/* ════════════════════════════════════════════════════════════
+   ► WEB3FORMS ACCESS-KEY HIER EINTRAGEN ◄
+   1. Auf https://web3forms.com kostenlos mit eurer Mail registrieren
+      (Empfänger-Adresse: nfcunnect@outlook.com)
+   2. Den Access-Key kopieren und unten zwischen die Anführungszeichen
+      einfügen — fertig, die Mail geht dann direkt raus.
+   Solange hier 'DEIN-ACCESS-KEY' steht, öffnet sich als Fallback
+   weiterhin das Mailprogramm.
+   ════════════════════════════════════════════════════════════ */
+const WEB3FORMS_KEY = 'DEIN-ACCESS-KEY';
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('jahr').textContent = new Date().getFullYear();
   initTabs();
   initBurger();
   initCountUp();
   initKontakt();
+  initSwatches();
 });
 
 /* ══════════════════════════════
@@ -101,14 +113,16 @@ function countUp(el) {
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
 /* ══════════════════════════════
-   Kontaktformular → mailto
+   Kontaktformular → Direktversand (Web3Forms)
    ══════════════════════════════ */
 function initKontakt() {
   const form   = document.getElementById('kontakt-form');
   const status = document.getElementById('kontakt-status');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     status.className = 'form-status';
 
@@ -123,15 +137,85 @@ function initKontakt() {
       return;
     }
 
-    const body =
-      `Name: ${name}\n` +
-      `E-Mail: ${email}\n\n` +
-      `${nachricht}`;
+    // Fallback: solange kein Access-Key hinterlegt ist → Mailprogramm öffnen
+    if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'DEIN-ACCESS-KEY') {
+      const body = `Name: ${name}\nE-Mail: ${email}\n\n${nachricht}`;
+      window.location.href =
+        `mailto:${MAIL}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(body)}`;
+      status.textContent = 'Dein E-Mail-Programm öffnet sich — bitte Nachricht absenden.';
+      status.className   = 'form-status ok';
+      return;
+    }
 
-    window.location.href =
-      `mailto:${MAIL}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(body)}`;
+    // Direktversand über Web3Forms
+    const origText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Senden …';
+    status.textContent = 'Nachricht wird gesendet …';
 
-    status.textContent = 'Dein E-Mail-Programm öffnet sich — bitte Nachricht absenden.';
-    status.className   = 'form-status ok';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `[NFCunnect] ${betreff}`,
+          from_name: name,
+          name,
+          email,
+          replyto: email,
+          message: nachricht,
+          botcheck: form.botcheck.checked
+        })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        status.textContent = 'Danke! Deine Nachricht wurde gesendet — wir melden uns bald.';
+        status.className   = 'form-status ok';
+        form.reset();
+      } else {
+        throw new Error(data.message || 'Senden fehlgeschlagen');
+      }
+    } catch (err) {
+      status.textContent = 'Senden hat nicht geklappt. Bitte später erneut versuchen oder direkt an ' + MAIL + ' schreiben.';
+      status.className   = 'form-status err';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = origText;
+    }
+  });
+}
+
+/* ══════════════════════════════
+   Produkt – Finish-Varianten (ein Produkt, mehrere Looks)
+   ══════════════════════════════ */
+function initSwatches() {
+  const swatches = document.querySelectorAll('.swatch');
+  const mainImg  = document.getElementById('produkt-main');
+  const label    = document.getElementById('produkt-finish');
+  if (!swatches.length || !mainImg) return;
+
+  swatches.forEach(sw => {
+    sw.addEventListener('click', () => {
+      const newSrc = sw.dataset.img;
+      if (mainImg.getAttribute('src') === newSrc) return;
+
+      // sanfte Überblendung
+      mainImg.style.opacity = '0';
+      const swap = () => {
+        mainImg.src = newSrc;
+        mainImg.alt = `NFCunnect Anhänger – Finish ${sw.dataset.finish}`;
+        if (label) label.textContent = sw.dataset.finish;
+        mainImg.style.opacity = '1';
+        mainImg.removeEventListener('transitionend', swap);
+      };
+      mainImg.addEventListener('transitionend', swap, { once: true });
+      // Fallback falls keine Transition feuert
+      setTimeout(() => { if (mainImg.style.opacity === '0') swap(); }, 220);
+
+      swatches.forEach(s => s.classList.remove('swatch--active'));
+      sw.classList.add('swatch--active');
+    });
   });
 }

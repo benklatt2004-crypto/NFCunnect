@@ -63,6 +63,82 @@
           <img src="assets/logo.png" alt="" class="hero__logo" />
         </div>
       </div>
+
+      <!-- WELTWEIT VERBUNDEN – Globus -->
+      <div class="globe-section" aria-label="Weltweit verbunden">
+        <div class="globe-section__head">
+          <p class="eyebrow">Let's Cunnect</p>
+          <h2>Weltweit verbunden</h2>
+          <p class="globe-section__sub">
+            Ein Scan reicht — und dein Anhänger verbindet dich mit der ganzen Welt.
+            Egal wo, egal wann: NFCunnect schlägt die Brücke zwischen analog und digital.
+          </p>
+        </div>
+
+        <div class="globe-wrap">
+          <div class="globe" aria-hidden="true">
+            <svg class="globe-svg" viewBox="0 0 400 400" role="img">
+              <defs>
+                <radialGradient id="sphere" cx="38%" cy="34%" r="75%">
+                  <stop offset="0%"  stop-color="#fff3e8" />
+                  <stop offset="42%" stop-color="#fbcfa6" />
+                  <stop offset="78%" stop-color="#e87018" />
+                  <stop offset="100%" stop-color="#7c3a06" />
+                </radialGradient>
+                <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                  <stop offset="60%" stop-color="rgba(232,112,24,0)" />
+                  <stop offset="100%" stop-color="rgba(232,112,24,.35)" />
+                </radialGradient>
+              </defs>
+
+              <!-- Glühen -->
+              <circle cx="200" cy="200" r="195" fill="url(#glow)" />
+              <!-- Kugel -->
+              <circle cx="200" cy="200" r="160" fill="url(#sphere)" />
+
+              <!-- Breitengrade (statisch) -->
+              <g class="globe-lat" stroke="rgba(255,255,255,.45)" stroke-width="1" fill="none">
+                <ellipse cx="200" cy="200" rx="160"   ry="22"   />
+                <ellipse cx="200" cy="160" rx="154.9" ry="20"   />
+                <ellipse cx="200" cy="240" rx="154.9" ry="20"   />
+                <ellipse cx="200" cy="120" rx="138.6" ry="17"   />
+                <ellipse cx="200" cy="280" rx="138.6" ry="17"   />
+                <ellipse cx="200" cy="80"  rx="105.8" ry="13"   />
+                <ellipse cx="200" cy="320" rx="105.8" ry="13"   />
+              </g>
+
+              <!-- Längengrade (rotierend simuliert) -->
+              <g class="globe-lon" stroke="rgba(255,255,255,.4)" stroke-width="1" fill="none">
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:0s"    />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-1.2s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-2.4s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-3.6s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-4.8s" />
+                <ellipse cx="200" cy="200" rx="160" ry="160" style="--d:-6s"   />
+              </g>
+
+              <!-- Verbindungsbögen -->
+              <g class="globe-arcs" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+                <path d="M120,130 Q200,40 290,150"  style="--len:340;--d:0s"   />
+                <path d="M95,230  Q200,330 300,250"  style="--len:360;--d:.8s"  />
+                <path d="M150,95  Q300,160 280,300"  style="--len:380;--d:1.6s" />
+                <path d="M110,290 Q120,160 250,100"  style="--len:360;--d:2.4s" />
+              </g>
+
+              <!-- Standort-Knoten -->
+              <g class="globe-nodes">
+                <circle cx="120" cy="130" r="5" />
+                <circle cx="290" cy="150" r="5" />
+                <circle cx="95"  cy="230" r="5" />
+                <circle cx="300" cy="250" r="5" />
+                <circle cx="150" cy="95"  r="5" />
+                <circle cx="280" cy="300" r="5" />
+                <circle cx="250" cy="100" r="5" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- PRODUKT -->
@@ -70,11 +146,23 @@
       <div class="page-inner">
         <div class="page-head">
           <h2>Unser Produkt</h2>
-          <p>Mehr als ein Schlüsselanhänger — ein digitaler Begleiter.</p>
+          <p>Ein Anhänger, viele Looks — wähle dein Finish.</p>
         </div>
         <div class="produkt-grid">
           <div class="produkt-media">
-            <img src="assets/chip-weiss.jpg" alt="NFCunnect Kupfer-Schlüsselanhänger mit NFC-Chip" />
+            <div class="produkt-stage">
+              <img id="produkt-main" src="assets/chip-weiss.jpg"
+                   alt="NFCunnect Kupfer-Schlüsselanhänger mit NFC-Chip" />
+              <span class="produkt-finish" id="produkt-finish">Clean</span>
+            </div>
+            <div class="swatches" role="group" aria-label="Finish wählen">
+              <button class="swatch swatch--active" data-img="assets/chip-weiss.jpg"  data-finish="Clean"    style="--sw:#f4f4f5" aria-label="Finish Clean"></button>
+              <button class="swatch" data-img="assets/chip-dunkel.jpg" data-finish="Dark"     style="--sw:#1a1a1a" aria-label="Finish Dark"></button>
+              <button class="swatch" data-img="assets/chip-orange.jpg" data-finish="Brand"    style="--sw:#e87018" aria-label="Finish Brand"></button>
+              <button class="swatch" data-img="assets/chip-beige.jpg"  data-finish="Natural"  style="--sw:#d8c4a8" aria-label="Finish Natural"></button>
+              <button class="swatch" data-img="assets/chip-slate.jpg"  data-finish="Business" style="--sw:#5a6470" aria-label="Finish Business"></button>
+            </div>
+            <p class="variant-note">Ein Produkt — fünf Finishes. Der Chip bleibt frei programmierbar.</p>
           </div>
           <ul class="feature-list">
             <li class="feature">
@@ -114,49 +202,21 @@
     <section class="page" id="page-galerie" aria-label="Galerie">
       <div class="page-inner">
         <div class="page-head">
-          <h2>Galerie</h2>
-          <p>Karte umdrehen und mehr entdecken.</p>
+          <h2>Eine Karte, unendliche Möglichkeiten</h2>
+          <p>Ein Produkt — beliebig viele Einsatzszenarien. Karte umdrehen und entdecken.</p>
         </div>
         <div class="galerie-grid">
 
           <div class="flip-card">
             <div class="flip-card__inner">
               <div class="flip-card__front">
-                <img src="assets/chip-weiss.jpg" alt="Clean Edition" />
-                <span class="card-label">Clean Edition</span>
-              </div>
-              <div class="flip-card__back">
-                <p class="back-icon">✦</p>
-                <h3>Clean Edition</h3>
-                <p>Pur und zeitlos — der Kupfer-Anhänger auf klarem Weiß. Perfekt für alle, die Understatement mögen.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card">
-            <div class="flip-card__inner">
-              <div class="flip-card__front">
-                <img src="assets/chip-dunkel.jpg" alt="Dark Edition" />
-                <span class="card-label">Dark Edition</span>
-              </div>
-              <div class="flip-card__back">
-                <p class="back-icon">◉</p>
-                <h3>Dark Edition</h3>
-                <p>Kupfer auf Schwarz — maximaler Kontrast, maximale Wirkung. Für den Premium-Auftritt.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="flip-card">
-            <div class="flip-card__inner">
-              <div class="flip-card__front">
-                <img src="assets/chip-orange.jpg" alt="Brand Edition" />
-                <span class="card-label">Brand Edition</span>
+                <img src="assets/chip-orange.jpg" alt="Social Media teilen" />
+                <span class="card-label">Social Media</span>
               </div>
               <div class="flip-card__back">
                 <p class="back-icon">⇄</p>
-                <h3>Brand Edition</h3>
-                <p>Im NFCunnect-Orange — scannen und direkt auf dein Profil oder deine Website verweisen.</p>
+                <h3>Social Media</h3>
+                <p>Instagram, TikTok &amp; Co. mit einem Scan teilen — neue Follower ohne Tippen, ohne QR-Code.</p>
               </div>
             </div>
           </div>
@@ -164,13 +224,13 @@
           <div class="flip-card">
             <div class="flip-card__inner">
               <div class="flip-card__front">
-                <img src="assets/chip-beige.jpg" alt="Natural Edition" />
-                <span class="card-label">Natural Edition</span>
+                <img src="assets/chip-slate.jpg" alt="Digitale Visitenkarte" />
+                <span class="card-label">Visitenkarte</span>
               </div>
               <div class="flip-card__back">
                 <p class="back-icon">◈</p>
-                <h3>Natural Edition</h3>
-                <p>Warmes Beige betont den natürlichen Kupferton — handwerklich, authentisch, edel.</p>
+                <h3>Digitale Visitenkarte</h3>
+                <p>Kontaktdaten, LinkedIn oder Kalender-Link teilen — einmal scannen, fertig im Adressbuch.</p>
               </div>
             </div>
           </div>
@@ -178,13 +238,13 @@
           <div class="flip-card">
             <div class="flip-card__inner">
               <div class="flip-card__front">
-                <img src="assets/chip-slate.jpg" alt="Business Edition" />
-                <span class="card-label">Business Edition</span>
+                <img src="assets/chip-weiss.jpg" alt="Website und Shop" />
+                <span class="card-label">Website &amp; Shop</span>
               </div>
               <div class="flip-card__back">
-                <p class="back-icon">↻</p>
-                <h3>Business Edition</h3>
-                <p>Visitenkarte 2.0 — einmal scannen und Kontaktdaten, LinkedIn oder Kalender-Link teilen.</p>
+                <p class="back-icon">✦</p>
+                <h3>Website &amp; Shop</h3>
+                <p>Direkt zu deiner Homepage, deinem Portfolio oder Online-Shop — der kürzeste Weg zu dir.</p>
               </div>
             </div>
           </div>
@@ -192,13 +252,41 @@
           <div class="flip-card">
             <div class="flip-card__inner">
               <div class="flip-card__front">
-                <img src="assets/chip-kollektion.jpg" alt="Die Kollektion" />
-                <span class="card-label">Kollektion</span>
+                <img src="assets/chip-beige.jpg" alt="WLAN teilen" />
+                <span class="card-label">WLAN</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">⬡</p>
+                <h3>WLAN teilen</h3>
+                <p>Gäste verbinden sich mit einem Scan — kein Passwort-Diktat mehr. Ideal für Café, Büro &amp; Zuhause.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-dunkel.jpg" alt="Bewertungen sammeln" />
+                <span class="card-label">Bewertungen</span>
               </div>
               <div class="flip-card__back">
                 <p class="back-icon">★</p>
-                <h3>Die Kollektion</h3>
-                <p>Alle Anhänger auf einen Blick — handgefertigt, individuell, bereit zur Ausgabe auf Messen und Events.</p>
+                <h3>Bewertungen sammeln</h3>
+                <p>Direkt zur Google-Rezension oder Trusted-Bewertung — mehr Sterne mit einem einzigen Scan.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-kollektion.jpg" alt="Events und Messen" />
+                <span class="card-label">Event &amp; Messe</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">↻</p>
+                <h3>Event &amp; Messe</h3>
+                <p>Verteile Infos, Tickets oder Lineups vor Ort — jederzeit neu beschreibbar für die nächste Aktion.</p>
               </div>
             </div>
           </div>
@@ -258,6 +346,8 @@
         </div>
         <div class="kontakt-card">
           <form id="kontakt-form" novalidate>
+            <!-- Honeypot gegen Spam-Bots (für Menschen unsichtbar) -->
+            <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <div class="field-row">
               <div class="field">
                 <label for="k-name">Name</label>
