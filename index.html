@@ -4,285 +4,297 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NFCunnect – Let's Cunnect</title>
-  <meta name="description" content="Kupfer-Schlüsselanhänger mit individuell programmierbarem NFC-Chip. Neuwertigkeit, Bewegung, Interaktion." />
+  <meta name="description" content="Kupfer-Schlüsselanhänger mit individuell programmierbarem NFC-Chip. Einmal scannen, sofort verbinden." />
   <link rel="icon" href="assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <!-- ── Navigation ── -->
-  <header class="nav" id="top">
-    <div class="nav__inner">
-      <a href="#top" class="nav__brand">
-        <img src="assets/logo.png" alt="NFCunnect" class="nav__logo" />
+  <!-- ── Header & Tab-Navigation ── -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="header__brand" data-tab="home" aria-label="NFCunnect Startseite">
+        <img src="assets/logo.png" alt="NFCunnect" class="header__logo" />
       </a>
-      <nav class="nav__links" aria-label="Hauptnavigation">
-        <a href="#produkt">Produkt</a>
-        <a href="#galerie">Galerie</a>
-        <a href="#ueber">Über uns</a>
-        <a href="#kontakt" class="nav__cta">Kontakt</a>
+      <nav class="tabs" aria-label="Seiten-Navigation">
+        <button class="tab tab--active" data-tab="home">Start</button>
+        <button class="tab" data-tab="produkt">Produkt</button>
+        <button class="tab" data-tab="galerie">Galerie</button>
+        <button class="tab" data-tab="ueber">Über uns</button>
+        <button class="tab" data-tab="kontakt">Kontakt</button>
       </nav>
-      <button class="nav__burger" aria-label="Menü öffnen" aria-expanded="false">
+      <button class="burger" aria-label="Menü" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
+    <!-- Mobile Dropdown -->
+    <div class="mobile-nav" aria-hidden="true">
+      <button class="tab" data-tab="home">Start</button>
+      <button class="tab" data-tab="produkt">Produkt</button>
+      <button class="tab" data-tab="galerie">Galerie</button>
+      <button class="tab" data-tab="ueber">Über uns</button>
+      <button class="tab" data-tab="kontakt">Kontakt</button>
+    </div>
   </header>
 
-  <!-- ── Hero ── -->
-  <section class="hero">
-    <div class="hero__bg" aria-hidden="true"></div>
-    <div class="hero__content reveal">
-      <p class="eyebrow">Juniorfirma · NFC · Kupfer</p>
-      <h1>Let's <em>Cunnect</em>.</h1>
-      <p class="hero__sub">
-        Kupfer-Schlüsselanhänger mit individuell programmierbarem NFC-Chip —
-        einmal antippen, überall verbinden.
-      </p>
-      <div class="hero__actions">
-        <a href="#produkt" class="btn btn--primary">Produkt entdecken</a>
-        <a href="#kontakt" class="btn btn--ghost">Kontakt</a>
-      </div>
-    </div>
-    <div class="hero__visual" aria-hidden="true">
-      <div class="hero__ring hero__ring--1"></div>
-      <div class="hero__ring hero__ring--2"></div>
-      <div class="hero__ring hero__ring--3"></div>
-      <img src="assets/logo.png" alt="" class="hero__logo reveal" />
-    </div>
-  </section>
+  <!-- ── Seiten ── -->
+  <main class="pages">
 
-  <!-- ── Produkt ── -->
-  <section class="section" id="produkt">
-    <div class="container">
-      <div class="section-head reveal">
-        <h2>Unser Produkt</h2>
-        <p>Mehr als ein Schlüsselanhänger — ein digitaler Begleiter.</p>
-      </div>
-      <div class="produkt-grid">
-        <div class="produkt-media reveal">
-          <img src="assets/produkt.jpg" alt="NFCunnect Kupfer-Schlüsselanhänger mit NFC-Chip" />
+    <!-- HOME -->
+    <section class="page page--active" id="page-home" aria-label="Startseite">
+      <div class="hero">
+        <div class="hero__bg" aria-hidden="true"></div>
+        <div class="hero__content">
+          <p class="eyebrow">Juniorfirma · NFC · Kupfer</p>
+          <h1>Let's <em>Cunnect</em>.</h1>
+          <p class="hero__sub">
+            Kupfer-Schlüsselanhänger mit individuell programmierbarem NFC-Chip —
+            einmal scannen, überall verbinden.
+          </p>
+          <div class="hero__actions">
+            <button class="btn btn--primary" data-tab="produkt">Produkt entdecken</button>
+            <button class="btn btn--ghost" data-tab="kontakt">Kontakt</button>
+          </div>
         </div>
-        <div class="produkt-info">
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero__ring hero__ring--1"></div>
+          <div class="hero__ring hero__ring--2"></div>
+          <div class="hero__ring hero__ring--3"></div>
+          <img src="assets/logo.png" alt="" class="hero__logo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUKT -->
+    <section class="page" id="page-produkt" aria-label="Produkt">
+      <div class="page-inner">
+        <div class="page-head">
+          <h2>Unser Produkt</h2>
+          <p>Mehr als ein Schlüsselanhänger — ein digitaler Begleiter.</p>
+        </div>
+        <div class="produkt-grid">
+          <div class="produkt-media">
+            <img src="assets/chip-weiss.jpg" alt="NFCunnect Kupfer-Schlüsselanhänger mit NFC-Chip" />
+          </div>
           <ul class="feature-list">
-            <li class="feature reveal">
+            <li class="feature">
               <span class="feature__icon">✦</span>
               <div>
                 <h3>Edles Kupfer-Design</h3>
                 <p>Handwerklich gefertigt, hochwertig veredelt. Ein Anhänger, der auffällt und in Erinnerung bleibt.</p>
               </div>
             </li>
-            <li class="feature reveal">
+            <li class="feature">
+              <span class="feature__icon">⬡</span>
+              <div>
+                <h3>NFC-Chip scannen</h3>
+                <p>Smartphone an den Chip halten und scannen — kein App-Download nötig. Kompatibel mit allen modernen iOS- und Android-Geräten.</p>
+              </div>
+            </li>
+            <li class="feature">
               <span class="feature__icon">↻</span>
               <div>
-                <h3>Frei programmierbarer NFC-Chip</h3>
-                <p>Jederzeit neu beschreibbar — verknüpfe Links, Kontaktdaten, Social-Media-Profile oder eigene Inhalte.</p>
+                <h3>Frei programmierbarer Chip</h3>
+                <p>Jederzeit neu beschreibbar — hinterlege Links, Kontaktdaten, Social-Media-Profile oder beliebige eigene Inhalte.</p>
               </div>
             </li>
-            <li class="feature reveal">
-              <span class="feature__icon">⇄</span>
-              <div>
-                <h3>Ein Tap genügt</h3>
-                <p>Kein App-Download, kein Scan — einfach Smartphone annähern und sofort verbinden.</p>
-              </div>
-            </li>
-            <li class="feature reveal">
+            <li class="feature">
               <span class="feature__icon">◈</span>
               <div>
-                <h3>Individualisierbar</h3>
+                <h3>Individuell & einzigartig</h3>
                 <p>Eigenes Design, eigener Aufkleber — jeder Anhänger ist ein Unikat.</p>
               </div>
             </li>
           </ul>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ── Galerie ── -->
-  <section class="section section--alt" id="galerie">
-    <div class="container">
-      <div class="section-head reveal">
-        <h2>Galerie</h2>
-        <p>Karten umdrehen und mehr entdecken.</p>
-      </div>
-      <div class="galerie-grid">
-
-        <div class="flip-card reveal">
-          <div class="flip-card__inner">
-            <div class="flip-card__front" style="--crop-y:0%">
-              <img src="assets/produkt.jpg" alt="NFCunnect Kollektion" />
-              <span class="card-label">Kollektion</span>
-            </div>
-            <div class="flip-card__back">
-              <p class="back-icon">✦</p>
-              <h3>Die Kollektion</h3>
-              <p>Alle Anhänger in der Übersicht — handgefertigt, edel, einzigartig.</p>
-            </div>
-          </div>
+    <!-- GALERIE -->
+    <section class="page" id="page-galerie" aria-label="Galerie">
+      <div class="page-inner">
+        <div class="page-head">
+          <h2>Galerie</h2>
+          <p>Karte umdrehen und mehr entdecken.</p>
         </div>
+        <div class="galerie-grid">
 
-        <div class="flip-card reveal" style="--delay:.1s">
-          <div class="flip-card__inner">
-            <div class="flip-card__front flip-card__front--close" style="--crop-y:20%">
-              <img src="assets/produkt.jpg" alt="Nahaufnahme NFC-Chip" />
-              <span class="card-label">NFC-Chip</span>
-            </div>
-            <div class="flip-card__back">
-              <p class="back-icon">↻</p>
-              <h3>Der Chip</h3>
-              <p>Klein, kraftvoll, frei beschreibbar. Kompatibel mit allen modernen Smartphones.</p>
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-weiss.jpg" alt="Clean Edition" />
+                <span class="card-label">Clean Edition</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">✦</p>
+                <h3>Clean Edition</h3>
+                <p>Pur und zeitlos — der Kupfer-Anhänger auf klarem Weiß. Perfekt für alle, die Understatement mögen.</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flip-card reveal" style="--delay:.2s">
-          <div class="flip-card__inner">
-            <div class="flip-card__front flip-card__front--warm">
-              <img src="assets/produkt.jpg" alt="Kupfer-Edition" />
-              <span class="card-label">Kupfer-Edition</span>
-            </div>
-            <div class="flip-card__back">
-              <p class="back-icon">◈</p>
-              <h3>Kupfer-Edition</h3>
-              <p>Warme Töne, edles Material. Kupfer steht für Wertigkeit und Langlebigkeit.</p>
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-dunkel.jpg" alt="Dark Edition" />
+                <span class="card-label">Dark Edition</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">◉</p>
+                <h3>Dark Edition</h3>
+                <p>Kupfer auf Schwarz — maximaler Kontrast, maximale Wirkung. Für den Premium-Auftritt.</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flip-card reveal" style="--delay:.3s">
-          <div class="flip-card__inner">
-            <div class="flip-card__front flip-card__front--dark">
-              <img src="assets/produkt.jpg" alt="Custom Design" />
-              <span class="card-label">Custom Design</span>
-            </div>
-            <div class="flip-card__back">
-              <p class="back-icon">⇄</p>
-              <h3>Dein Design</h3>
-              <p>Eigener Aufkleber, eigener Inhalt — NFCunnect macht deinen Anhänger zum Unikat.</p>
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-orange.jpg" alt="Brand Edition" />
+                <span class="card-label">Brand Edition</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">⇄</p>
+                <h3>Brand Edition</h3>
+                <p>Im NFCunnect-Orange — scannen und direkt auf dein Profil oder deine Website verweisen.</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flip-card reveal" style="--delay:.4s">
-          <div class="flip-card__inner">
-            <div class="flip-card__front flip-card__front--pop">
-              <img src="assets/produkt.jpg" alt="Business Edition" />
-              <span class="card-label">Business Edition</span>
-            </div>
-            <div class="flip-card__back">
-              <p class="back-icon">◉</p>
-              <h3>Business Edition</h3>
-              <p>Visitenkarte 2.0 — tippe und teile direkt dein LinkedIn, deine Website oder deinen Kalender.</p>
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-beige.jpg" alt="Natural Edition" />
+                <span class="card-label">Natural Edition</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">◈</p>
+                <h3>Natural Edition</h3>
+                <p>Warmes Beige betont den natürlichen Kupferton — handwerklich, authentisch, edel.</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="flip-card reveal" style="--delay:.5s">
-          <div class="flip-card__inner">
-            <div class="flip-card__front flip-card__front--orange">
-              <img src="assets/produkt.jpg" alt="Limitierte Auflage" />
-              <span class="card-label">Limited Edition</span>
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-slate.jpg" alt="Business Edition" />
+                <span class="card-label">Business Edition</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">↻</p>
+                <h3>Business Edition</h3>
+                <p>Visitenkarte 2.0 — einmal scannen und Kontaktdaten, LinkedIn oder Kalender-Link teilen.</p>
+              </div>
             </div>
-            <div class="flip-card__back">
-              <p class="back-icon">★</p>
-              <h3>Limited Edition</h3>
-              <p>Exklusive Auflagen für besondere Anlässe — Messen, Events und Geschäftsgeschenke.</p>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card__inner">
+              <div class="flip-card__front">
+                <img src="assets/chip-kollektion.jpg" alt="Die Kollektion" />
+                <span class="card-label">Kollektion</span>
+              </div>
+              <div class="flip-card__back">
+                <p class="back-icon">★</p>
+                <h3>Die Kollektion</h3>
+                <p>Alle Anhänger auf einen Blick — handgefertigt, individuell, bereit zur Ausgabe auf Messen und Events.</p>
+              </div>
             </div>
           </div>
-        </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Über uns ── -->
-  <section class="section" id="ueber">
-    <div class="container">
-      <div class="section-head reveal">
-        <h2>Über uns</h2>
-      </div>
-      <div class="ueber-grid">
-        <div class="ueber-text reveal">
-          <p>
-            NFCunnect ist eine <strong>Juniorfirma</strong>, die Handwerk mit Technologie verbindet.
-            Wir entwickeln, gestalten und programmieren Kupfer-Schlüsselanhänger mit NFC-Chip —
-            mit dem Fokus auf <strong>Neuwertigkeit, Bewegung und Interaktion</strong>.
-          </p>
-          <p>
-            Jeder Anhänger ist individuell: eigenes Design, eigener Chip-Inhalt, eigene Geschichte.
-            Wir glauben daran, dass analoge Objekte und digitale Welt nahtlos verbunden sein können.
-          </p>
-        </div>
-        <div class="stats reveal">
-          <div class="stat">
-            <span class="stat__num" data-target="100">0</span><span>+</span>
-            <p>Anhänger</p>
-          </div>
-          <div class="stat">
-            <span class="stat__num" data-target="1">0</span>
-            <p>Juniorfirma</p>
-          </div>
-          <div class="stat">
-            <span class="stat__num" data-target="100">0</span><span>%</span>
-            <p>Individuell</p>
-          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ── Kontakt ── -->
-  <section class="section section--alt" id="kontakt">
-    <div class="container">
-      <div class="section-head reveal">
-        <h2>Kontakt</h2>
-        <p>Interesse geweckt? Schreib uns!</p>
+    <!-- ÜBER UNS -->
+    <section class="page" id="page-ueber" aria-label="Über uns">
+      <div class="page-inner page-inner--center">
+        <div class="page-head">
+          <h2>Über uns</h2>
+        </div>
+        <div class="ueber-grid">
+          <div class="ueber-text">
+            <p>
+              NFCunnect ist eine <strong>Juniorfirma</strong>, die Handwerk mit Technologie verbindet.
+              Wir entwickeln, gestalten und programmieren Kupfer-Schlüsselanhänger mit NFC-Chip —
+              mit dem Fokus auf <strong>Neuwertigkeit, Bewegung und Interaktion</strong>.
+            </p>
+            <p>
+              Jeder Anhänger ist individuell: eigenes Design, eigener Chip-Inhalt, eigene Geschichte.
+              Wir glauben daran, dass analoge Objekte und digitale Welt nahtlos verbunden sein können —
+              ein Scan genügt.
+            </p>
+            <button class="btn btn--primary" data-tab="kontakt" style="margin-top:1.5rem">Kontakt aufnehmen</button>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat__num" data-target="100">0</span><span class="stat__suffix">+</span>
+              <p>Anhänger produziert</p>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-target="1">0</span>
+              <p>Juniorfirma</p>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-target="100">0</span><span class="stat__suffix">%</span>
+              <p>Individuell</p>
+            </div>
+            <div class="stat">
+              <span class="stat__num" data-target="1">0</span>
+              <p>NFC-Scan genügt</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="kontakt-card reveal">
-        <form id="kontakt-form" novalidate>
-          <div class="field-row">
+    </section>
+
+    <!-- KONTAKT -->
+    <section class="page" id="page-kontakt" aria-label="Kontakt">
+      <div class="page-inner page-inner--center">
+        <div class="page-head">
+          <h2>Kontakt</h2>
+          <p>Interesse? Fragen? Bestellung? Schreib uns!</p>
+        </div>
+        <div class="kontakt-card">
+          <form id="kontakt-form" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <label for="k-name">Name</label>
+                <input type="text" id="k-name" name="name" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="k-email">Deine E-Mail</label>
+                <input type="email" id="k-email" name="email" required autocomplete="email" />
+              </div>
+            </div>
             <div class="field">
-              <label for="k-name">Name</label>
-              <input type="text" id="k-name" name="name" required autocomplete="name" />
+              <label for="k-betreff">Betreff</label>
+              <input type="text" id="k-betreff" name="betreff" placeholder="z.B. Anfrage Bestellung" />
             </div>
             <div class="field">
-              <label for="k-email">Deine E-Mail</label>
-              <input type="email" id="k-email" name="email" required autocomplete="email" />
+              <label for="k-nachricht">Nachricht</label>
+              <textarea id="k-nachricht" name="nachricht" rows="5" required></textarea>
             </div>
-          </div>
-          <div class="field">
-            <label for="k-betreff">Betreff</label>
-            <input type="text" id="k-betreff" name="betreff" placeholder="z.B. Anfrage Bestellung" />
-          </div>
-          <div class="field">
-            <label for="k-nachricht">Nachricht</label>
-            <textarea id="k-nachricht" name="nachricht" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary">Nachricht senden</button>
-          <p class="form-status" id="kontakt-status" role="status"></p>
-        </form>
-        <p class="kontakt-direkt">
-          Oder direkt: <a href="mailto:nfcunnect@outlook.com">nfcunnect@outlook.com</a>
-        </p>
+            <button type="submit" class="btn btn--primary">Nachricht senden</button>
+            <p class="form-status" id="kontakt-status" role="status"></p>
+          </form>
+          <p class="kontakt-direkt">
+            Oder direkt: <a href="mailto:nfcunnect@outlook.com">nfcunnect@outlook.com</a>
+          </p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+  </main>
 
   <!-- ── Footer ── -->
   <footer class="footer">
-    <div class="footer__inner container">
+    <div class="footer__inner">
       <img src="assets/logo.png" alt="NFCunnect" class="footer__logo" />
-      <div class="footer__info">
-        <p class="footer__slogan">Let's Cunnect.</p>
-        <a href="mailto:nfcunnect@outlook.com">nfcunnect@outlook.com</a>
-        <p class="footer__copy">© <span id="jahr"></span> NFCunnect – Juniorfirma</p>
-      </div>
-      <div class="footer__links">
-        <a href="#produkt">Produkt</a>
-        <a href="#galerie">Galerie</a>
-        <a href="#ueber">Über uns</a>
-        <a href="#kontakt">Kontakt</a>
-      </div>
+      <p class="footer__slogan">Let's Cunnect.</p>
+      <a href="mailto:nfcunnect@outlook.com" class="footer__mail">nfcunnect@outlook.com</a>
+      <p class="footer__copy">© <span id="jahr"></span> NFCunnect – Juniorfirma</p>
     </div>
   </footer>
 
