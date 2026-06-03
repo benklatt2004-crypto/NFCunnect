@@ -4,10 +4,17 @@
 const MAIL          = 'nfcunnect@outlook.com';
 const WEB3FORMS_KEY = 'a4bbb1a1-e07c-46e8-a015-ccc167ac1241';
 
+// Robuster Lucide-Aufruf: bricht nicht, falls das CDN nicht geladen hat
+function renderIcons() {
+  if (window.lucide && typeof lucide.createIcons === 'function') {
+    lucide.createIcons();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('jahr').textContent = new Date().getFullYear();
 
-  lucide.createIcons();   // Lucide renders all <i data-lucide="…">
+  renderIcons();   // Lucide renders all <i data-lucide="…">
 
   initScrollProgress();
   initTabs();
@@ -64,7 +71,7 @@ function switchTab(tabId) {
     // Re-run reveals for new tab
     triggerReveal();
     // Re-render Lucide icons in case tab was hidden
-    lucide.createIcons();
+    renderIcons();
   }, { once: true });
 
   document.querySelectorAll('.tab').forEach(t => {
@@ -365,7 +372,7 @@ function initKontakt() {
     } finally {
       submitBtn.disabled    = false;
       submitBtn.textContent = origText;
-      lucide.createIcons(); // restore icon in button
+      renderIcons(); // restore icon in button
     }
   });
 }
