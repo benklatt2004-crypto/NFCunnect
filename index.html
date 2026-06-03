@@ -552,9 +552,25 @@
 
         </div>
 
-        <p class="socials-foot">
-          Oder scann einfach deinen NFCunnect-Anhänger — er bringt dich direkt zu uns.
-        </p>
+        <!-- NFC Share Zone -->
+        <div class="nfc-share reveal" id="nfc-share-zone">
+          <button class="nfc-share__orb" id="nfc-share-btn" type="button" aria-label="NFCunnect teilen">
+            <span class="nfc-ring nfc-ring--1" aria-hidden="true"></span>
+            <span class="nfc-ring nfc-ring--2" aria-hidden="true"></span>
+            <span class="nfc-ring nfc-ring--3" aria-hidden="true"></span>
+            <span class="nfc-share__glow" aria-hidden="true"></span>
+            <svg class="nfc-share__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="20" r="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <div class="nfc-share__info">
+            <p class="nfc-share__label">Teile NFCunnect</p>
+            <p class="nfc-share__sub" id="nfc-share-sub">Tap — und wir landen direkt auf dem Handy deiner Freunde</p>
+          </div>
+        </div>
       </div>
     </section>
 
