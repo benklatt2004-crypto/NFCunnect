@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProduktTilt();
   initHowSteps();
   initTapDemo();
+  initCoop();
   initTypewriter();
   initReveal();
 });
@@ -296,6 +297,25 @@ function countUp(el) {
   requestAnimationFrame(run);
 }
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+/* ══════════════════════════════
+   Kooperation – Aurubis-Logo-Fallback
+   Zeigt einen sauberen Schriftzug, falls
+   assets/aurubis-logo.png (noch) fehlt.
+   ══════════════════════════════ */
+function initCoop() {
+  const logo = document.getElementById('coop-aurubis');
+  if (!logo) return;
+  const showFallback = () => {
+    const span = document.createElement('span');
+    span.className = 'coop__wordmark';
+    span.textContent = 'Aurubis';
+    logo.replaceWith(span);
+  };
+  logo.addEventListener('error', showFallback);
+  // Falls das Bild bereits als "broken" geladen wurde
+  if (logo.complete && logo.naturalWidth === 0) showFallback();
+}
 
 /* ══════════════════════════════
    Kontaktformular – Web3Forms
