@@ -741,8 +741,8 @@ ul { list-style: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 58%;
-  transform: scale(1.28);
+  object-position: 50% 50%;
+  transform: scale(1.04);
   transition: transform .5s var(--ease), opacity .22s var(--ease);
   will-change: transform;
 }
@@ -810,112 +810,33 @@ ul { list-style: none; }
 .chip-spec__val { font-family: var(--font-mono); font-size: .88rem; color: var(--copper-300); }
 
 /* ════════════════════════════════════
-   3D-ANHÄNGER (rotierend, drag/touch)
+   PRODUKTVIDEO
    ════════════════════════════════════ */
-.pendant3d {
-  perspective: 1200px;
-  display: flex; align-items: center; justify-content: center;
-  min-height: 500px; margin-top: var(--space-8);
-  position: relative; cursor: grab; user-select: none; touch-action: none;
+.produkt-video { margin-top: var(--space-16); text-align: center; }
+.produkt-video .page-head { margin-bottom: 0; }
+.produkt-video__frame {
+  position: relative; margin: var(--space-8) auto 0;
+  width: fit-content; max-width: 100%;
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--border); box-shadow: var(--shadow-lg);
 }
-.pendant3d.is-grabbing { cursor: grabbing; }
-.pendant3d__spin {
-  position: relative;
-  width: 300px; height: 460px;   /* Seitenverhältnis 499:764 */
-  transform-style: preserve-3d;
-  will-change: transform;
+.produkt-video__frame video {
+  display: block; max-height: 540px; width: auto; max-width: 100%;
+  background: var(--night-800);
 }
-.pendant3d__face, .pendant3d__edge {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: contain; -webkit-user-drag: none; pointer-events: none;
-}
-.pendant3d__face { backface-visibility: hidden; filter: drop-shadow(0 20px 32px rgba(74,36,6,.4)); }
-.pendant3d__edge { backface-visibility: visible; }
-.pendant3d__floor {
-  position: absolute; bottom: 46px; left: 50%; transform: translateX(-50%);
-  width: 210px; height: 34px; border-radius: 50%; z-index: 0;
-  background: radial-gradient(ellipse, rgba(74,36,6,.38), transparent 70%); filter: blur(7px);
-}
-.pendant3d__hint {
-  text-align: center; color: var(--ink-500); font-size: .76rem;
-  letter-spacing: .12em; margin-top: var(--space-2);
-}
-
-/* ════════════════════════════════════
-   IMPRESSIONEN – Motion-Showcase (Grid)
-   ════════════════════════════════════ */
-.showcase { margin-top: var(--space-16); }
-.showcase .page-head { margin-bottom: 0; }
-.showcase__grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-5); margin-top: var(--space-8);
-}
-.showcase__card {
-  position: relative; border-radius: var(--radius-lg); overflow: hidden;
-  background: var(--night-800); border: 1px solid var(--border);
-  box-shadow: var(--shadow-md); cursor: pointer;
-  transform-style: preserve-3d; will-change: transform;
-  animation: showcaseFloat 6s ease-in-out infinite;
-  transition: box-shadow var(--dur-std) var(--ease), border-color var(--dur-std) var(--ease);
-}
-.showcase__card:nth-child(2) { animation-delay: -1.5s; }
-.showcase__card:nth-child(3) { animation-delay: -3s; }
-.showcase__card:nth-child(4) { animation-delay: -4.5s; }
-.showcase__card:hover { box-shadow: 0 22px 55px var(--glow-copper-lg); border-color: var(--copper-400); }
-@keyframes showcaseFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
-
-.showcase__media { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
-.showcase__media img, .showcase__media video {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
-.showcase__media img { animation: showcaseKen 20s ease-in-out infinite alternate; }
-@keyframes showcaseKen {
-  from { transform: scale(1.04) translate(0, 0); }
-  to   { transform: scale(1.14) translate(2%, -3%); }
-}
-/* Cursor-folgender Kupfer-Glow */
-.showcase__media::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--glow-copper-lg), transparent 55%);
-  transition: opacity var(--dur-std) var(--ease);
-}
-.showcase__card:hover .showcase__media::after { opacity: 1; }
-
-/* Glanz-Sweep */
-.showcase__sheen {
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.28) 48%, transparent 66%);
-  transform: translateX(-130%); transition: transform .85s var(--ease);
-}
-.showcase__card:hover .showcase__sheen { transform: translateX(130%); }
-
-/* Video-Badge */
-.showcase__badge {
-  position: absolute; top: 10px; left: 10px; z-index: 3;
+.produkt-video__badge {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(14,8,6,.62); color: #fff; font-size: .68rem; font-weight: 700;
   letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px;
   border-radius: var(--radius-pill); backdrop-filter: blur(4px);
 }
-.showcase__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); animation: collagePulse 1.6s infinite; }
-@keyframes collagePulse {
+.produkt-video__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); animation: videoPulse 1.6s infinite; }
+@keyframes videoPulse {
   0%   { box-shadow: 0 0 0 0 rgba(225,90,51,.6); }
   70%  { box-shadow: 0 0 0 8px rgba(225,90,51,0); }
   100% { box-shadow: 0 0 0 0 rgba(225,90,51,0); }
 }
-
-.showcase__cap {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  display: flex; flex-direction: column; gap: 2px;
-  padding: var(--space-8) var(--space-4) var(--space-4);
-  background: linear-gradient(to top, rgba(14,8,6,.88), rgba(14,8,6,.35) 60%, transparent);
-  color: #fff;
-  transform: translateY(10px); opacity: .9;
-  transition: transform var(--dur-std) var(--ease), opacity var(--dur-std) var(--ease);
-}
-.showcase__card:hover .showcase__cap { transform: translateY(0); opacity: 1; }
-.showcase__cap-title { font-family: var(--font-display); font-weight: 800; font-size: 1rem; }
-.showcase__cap-sub { font-size: .8rem; color: var(--copper-200); }
 
 /* ════════════════════════════════════
    GALERIE – Flip Cards mit Lucide
@@ -1463,7 +1384,6 @@ ul { list-style: none; }
 
   .produkt-grid { grid-template-columns: 1fr; gap: var(--space-8); }
   .chip-spec__grid { grid-template-columns: 1fr 1fr; }
-  .showcase__grid { grid-template-columns: 1fr 1fr; }
 
   .galerie-grid { grid-template-columns: 1fr 1fr; }
   .socials-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
@@ -1483,10 +1403,7 @@ ul { list-style: none; }
   .orgA__dept:nth-child(n) { margin-bottom: 0; }
   .orgA__members { grid-template-columns: 1fr; }
 
-  .showcase__grid { gap: var(--space-4); }
-
-  .pendant3d { min-height: 420px; }
-  .pendant3d__spin { width: 248px; height: 380px; }
+  .produkt-video__frame video { max-height: 420px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
