@@ -272,6 +272,8 @@ function initProduktTilt() {
     const { left, top, width, height } = stage.getBoundingClientRect();
     const x = ((e.clientX - left) / width  - .5) * 14;
     const y = ((e.clientY - top)  / height - .5) * -14;
+    stage.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
+    stage.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
     stage.style.transform = `perspective(600px) rotateY(${x}deg) rotateX(${y}deg)`;
     stage.style.transition = 'transform .08s linear';
   });
