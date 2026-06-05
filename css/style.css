@@ -810,6 +810,38 @@ ul { list-style: none; }
 .chip-spec__val { font-family: var(--font-mono); font-size: .88rem; color: var(--copper-300); }
 
 /* ════════════════════════════════════
+   3D-ANHÄNGER (rotierend, drag/touch)
+   ════════════════════════════════════ */
+.pendant3d {
+  perspective: 1200px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 500px; margin-top: var(--space-8);
+  position: relative; cursor: grab; user-select: none; touch-action: none;
+}
+.pendant3d.is-grabbing { cursor: grabbing; }
+.pendant3d__spin {
+  position: relative;
+  width: 226px; height: 470px;   /* Seitenverhältnis 327:680 */
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.pendant3d__face, .pendant3d__edge {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; -webkit-user-drag: none; pointer-events: none;
+}
+.pendant3d__face { backface-visibility: hidden; filter: drop-shadow(0 20px 32px rgba(74,36,6,.45)); }
+.pendant3d__edge { backface-visibility: visible; filter: brightness(.34) saturate(1.5); }
+.pendant3d__floor {
+  position: absolute; bottom: 46px; left: 50%; transform: translateX(-50%);
+  width: 210px; height: 34px; border-radius: 50%; z-index: 0;
+  background: radial-gradient(ellipse, rgba(74,36,6,.38), transparent 70%); filter: blur(7px);
+}
+.pendant3d__hint {
+  text-align: center; color: var(--ink-500); font-size: .76rem;
+  letter-spacing: .12em; margin-top: var(--space-2);
+}
+
+/* ════════════════════════════════════
    MOTION-SHOWCASE (Impressionen)
    ════════════════════════════════════ */
 .showcase { margin-top: var(--space-16); }
@@ -1438,6 +1470,9 @@ ul { list-style: none; }
   .orgA__members { grid-template-columns: 1fr; }
 
   .showcase__grid { gap: var(--space-4); }
+
+  .pendant3d { min-height: 420px; }
+  .pendant3d__spin { width: 188px; height: 391px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

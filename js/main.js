@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroTilt();
   initProduktTilt();
   initShowcaseTilt();
+  initPendant3d();
   initHowSteps();
   initTapDemo();
   initCoop();
@@ -233,6 +234,80 @@ function initHeroTilt() {
     tilt.style.transform = '';
     tilt.style.transition = 'transform .5s cubic-bezier(0.22,1,0.36,1)';
   });
+}
+
+/* ══════════════════════════════
+   3D-Anhänger – Auto-Spin + Drag/Touch
+   ══════════════════════════════ */
+function initPendant3d() {
+  const root = document.getElementById('pendant3d');
+  if (!root) return;
+
+  const FRONT = 'assets/pendant-front.png';
+  const BACK  = 'assets/pendant-back.png';
+  const HALF  = 5;   // halbe Dicke in px
+  const LAYERS = 10; // Zwischenebenen für die Kante (Extrusion)
+
+  const spin = document.createElement('div');
+  spin.className = 'pendant3d__spin';
+
+  // Kanten-Ebenen (abgedunkelt) zwischen Vorder- und Rückseite
+  for (let i = 0; i <= LAYERS; i++) {
+    const z = -HALF + (i / LAYERS) * (HALF * 2);
+    const edge = document.createElement('img');
+    edge.className = 'pendant3d__edge';
+    edge.src = FRONT;
+    edge.alt = '';
+    edge.setAttribute('aria-hidden', 'true');
+    edge.style.transform = `translateZ(${z.toFixed(2)}px)`;
+    spin.appendChild(edge);
+  }
+
+  const front = document.createElement('img');
+  front.className = 'pendant3d__face pendant3d__face--front';
+  front.src = FRONT;
+  front.alt = 'NFCunnect Kupfer-Anhänger, Vorderseite';
+  front.style.transform = `translateZ(${HALF}px)`;
+
+  const back = document.createElement('img');
+  back.className = 'pendant3d__face pendant3d__face--back';
+  back.src = BACK;
+  back.alt = 'NFCunnect Kupfer-Anhänger, Rückseite';
+  back.style.transform = `rotateY(180deg) translateZ(${HALF}px)`;
+
+  spin.append(front, back);
+  root.insertBefore(spin, root.firstChild);
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let rotY = -22, auto = !reduce, dragging = false, lastX = 0, idleTimer = null;
+
+  function render() {
+    spin.style.transform = `rotateX(-8deg) rotateY(${rotY}deg)`;
+    if (auto && !dragging) rotY += 0.35;
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  root.addEventListener('pointerdown', (e) => {
+    dragging = true; auto = false; lastX = e.clientX;
+    root.classList.add('is-grabbing');
+    root.setPointerCapture(e.pointerId);
+    clearTimeout(idleTimer);
+  });
+  root.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    rotY += (e.clientX - lastX) * 0.5;
+    lastX = e.clientX;
+  });
+  function endDrag(e) {
+    if (!dragging) return;
+    dragging = false;
+    root.classList.remove('is-grabbing');
+    try { root.releasePointerCapture(e.pointerId); } catch (_) {}
+    if (!reduce) idleTimer = setTimeout(() => { auto = true; }, 2500);
+  }
+  root.addEventListener('pointerup', endDrag);
+  root.addEventListener('pointercancel', endDrag);
 }
 
 /* ══════════════════════════════
