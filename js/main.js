@@ -245,8 +245,9 @@ function initPendant3d() {
 
   const FRONT = 'assets/pendant-front.webp';
   const BACK  = 'assets/pendant-back.webp';
-  const HALF  = 5;   // halbe Dicke in px
-  const LAYERS = 10; // Zwischenebenen für die Kante (Extrusion)
+  const EDGE  = 'assets/pendant-edge.webp';  // saubere Kupferkante
+  const HALF  = 2.5; // halbe Dicke in px (dünn)
+  const LAYERS = 6;  // Zwischenebenen für die Kante (Extrusion)
 
   const spin = document.createElement('div');
   spin.className = 'pendant3d__spin';
@@ -256,7 +257,7 @@ function initPendant3d() {
     const z = -HALF + (i / LAYERS) * (HALF * 2);
     const edge = document.createElement('img');
     edge.className = 'pendant3d__edge';
-    edge.src = FRONT;
+    edge.src = EDGE;
     edge.alt = '';
     edge.setAttribute('aria-hidden', 'true');
     edge.style.transform = `translateZ(${z.toFixed(2)}px)`;
@@ -283,8 +284,8 @@ function initPendant3d() {
 
   function render() {
     t += 0.016;
-    const bob = reduce ? 0 : Math.sin(t * 1.1) * 7;        // sanftes Schweben
-    const tilt = reduce ? -8 : -8 + Math.sin(t * 0.7) * 3; // leichtes Kippen
+    const bob = reduce ? 0 : Math.sin(t * 0.9) * 4;        // dezentes Schweben
+    const tilt = reduce ? -6 : -6 + Math.sin(t * 0.6) * 2; // leichtes Kippen
     spin.style.transform = `translateY(${bob}px) rotateX(${tilt}deg) rotateY(${rotY}deg)`;
     if (auto && !dragging) rotY += 0.3;
     requestAnimationFrame(render);
