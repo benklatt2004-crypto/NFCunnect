@@ -821,7 +821,7 @@ ul { list-style: none; }
 .pendant3d.is-grabbing { cursor: grabbing; }
 .pendant3d__spin {
   position: relative;
-  width: 226px; height: 470px;   /* Seitenverhältnis 327:680 */
+  width: 300px; height: 460px;   /* Seitenverhältnis 499:764 */
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -842,66 +842,91 @@ ul { list-style: none; }
 }
 
 /* ════════════════════════════════════
-   MOTION-SHOWCASE (Impressionen)
+   IMPRESSIONEN – spielerische Polaroid-Collage
    ════════════════════════════════════ */
 .showcase { margin-top: var(--space-16); }
 .showcase .page-head { margin-bottom: 0; }
-.showcase__grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-5); margin-top: var(--space-8);
-}
-.showcase__card {
-  position: relative; border-radius: var(--radius-lg); overflow: hidden;
-  background: var(--night-800); border: 1px solid var(--border);
+
+.collage { margin-top: var(--space-8); column-count: 4; column-gap: var(--space-5); }
+.collage__item {
+  position: relative; break-inside: avoid; margin-bottom: var(--space-6);
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 10px 10px 0;            /* Polaroid-Rahmen */
   box-shadow: var(--shadow-md); cursor: pointer;
   transform-style: preserve-3d; will-change: transform;
-  animation: showcaseFloat 6s ease-in-out infinite;
+  animation: showcaseFloat 6.5s ease-in-out infinite;
   transition: box-shadow var(--dur-std) var(--ease), border-color var(--dur-std) var(--ease);
 }
-.showcase__card:nth-child(2) { animation-delay: -1.5s; }
-.showcase__card:nth-child(3) { animation-delay: -3s; }
-.showcase__card:nth-child(4) { animation-delay: -4.5s; }
-.showcase__card:hover { box-shadow: 0 22px 55px var(--glow-copper-lg); border-color: var(--copper-400); }
+/* spielerische Ruhe-Neigung + versetztes Schweben */
+.collage__item:nth-child(1) { transform: rotate(-3deg);   animation-delay: 0s;    }
+.collage__item:nth-child(2) { transform: rotate(2.5deg);  animation-delay: -1.3s; }
+.collage__item:nth-child(3) { transform: rotate(-1.5deg); animation-delay: -2.6s; }
+.collage__item:nth-child(4) { transform: rotate(3deg);    animation-delay: -3.9s; }
+.collage__item:nth-child(5) { transform: rotate(-2deg);   animation-delay: -5.2s; }
+.collage__item:hover { box-shadow: 0 26px 60px var(--glow-copper-lg); border-color: var(--copper-400); z-index: 5; }
 @keyframes showcaseFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
 
-.showcase__media { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
-.showcase__media img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  animation: showcaseKen 20s ease-in-out infinite alternate;
-}
+.collage__media { position: relative; overflow: hidden; border-radius: calc(var(--radius-md) - 4px); aspect-ratio: 3 / 4; background: var(--night-800); }
+.collage__item--video .collage__media { aspect-ratio: 9 / 16; }
+.collage__media img, .collage__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.collage__media img { animation: showcaseKen 22s ease-in-out infinite alternate; }
 @keyframes showcaseKen {
   from { transform: scale(1.04) translate(0, 0); }
   to   { transform: scale(1.14) translate(2%, -3%); }
 }
 /* Cursor-folgender Kupfer-Glow */
-.showcase__media::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+.collage__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; z-index: 2;
   background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--glow-copper-lg), transparent 55%);
   transition: opacity var(--dur-std) var(--ease);
 }
-.showcase__card:hover .showcase__media::after { opacity: 1; }
+.collage__item:hover .collage__media::after { opacity: 1; }
 
-/* Glanz-Sweep über das Bild */
+/* Glanz-Sweep */
 .showcase__sheen {
   position: absolute; inset: 0; pointer-events: none; z-index: 1;
   background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.28) 48%, transparent 66%);
-  transform: translateX(-130%);
-  transition: transform .85s var(--ease);
+  transform: translateX(-130%); transition: transform .85s var(--ease);
 }
-.showcase__card:hover .showcase__sheen { transform: translateX(130%); }
+.collage__item:hover .showcase__sheen { transform: translateX(130%); }
 
-.showcase__cap {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  display: flex; flex-direction: column; gap: 2px;
-  padding: var(--space-8) var(--space-4) var(--space-4);
-  background: linear-gradient(to top, rgba(14,8,6,.88), rgba(14,8,6,.35) 60%, transparent);
-  color: #fff;
-  transform: translateY(10px); opacity: .9;
-  transition: transform var(--dur-std) var(--ease), opacity var(--dur-std) var(--ease);
+.collage__cap { padding: var(--space-3) var(--space-2) var(--space-4); text-align: center; }
+.collage__cap-title { display: block; font-family: var(--font-display); font-weight: 800; font-size: .92rem; color: var(--fg); }
+.collage__cap-sub { font-size: .74rem; color: var(--fg-muted); }
+
+/* Live-Badge (Video) */
+.collage__badge {
+  position: absolute; top: 10px; left: 10px; z-index: 3;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(14,8,6,.62); color: #fff; font-size: .68rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px;
+  border-radius: var(--radius-pill); backdrop-filter: blur(4px);
 }
-.showcase__card:hover .showcase__cap { transform: translateY(0); opacity: 1; }
-.showcase__cap-title { font-family: var(--font-display); font-weight: 800; font-size: 1rem; }
-.showcase__cap-sub { font-size: .8rem; color: var(--copper-200); }
+.collage__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); animation: collagePulse 1.6s infinite; }
+@keyframes collagePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(225,90,51,.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(225,90,51,0); }
+  100% { box-shadow: 0 0 0 0 rgba(225,90,51,0); }
+}
+
+/* Washi-Tape */
+.collage__tape {
+  position: absolute; top: -9px; left: 50%; z-index: 4;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 88px; height: 24px;
+  background: repeating-linear-gradient(135deg, rgba(224,116,26,.5) 0 8px, rgba(240,146,107,.42) 8px 16px);
+  border: 1px solid rgba(255,255,255,.22); box-shadow: var(--shadow-sm);
+}
+
+/* Sticker-Pille */
+.collage__sticker {
+  position: absolute; right: -6px; bottom: 64px; z-index: 4;
+  transform: rotate(-6deg);
+  background: var(--primary); color: #fff; font-weight: 800; font-size: .72rem;
+  letter-spacing: .03em; padding: 5px 12px; border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+}
+.collage__sticker--alt { background: var(--ink-800); color: var(--copper-200); }
 
 /* ════════════════════════════════════
    GALERIE – Flip Cards mit Lucide
@@ -1449,7 +1474,7 @@ ul { list-style: none; }
 
   .produkt-grid { grid-template-columns: 1fr; gap: var(--space-8); }
   .chip-spec__grid { grid-template-columns: 1fr 1fr; }
-  .showcase__grid { grid-template-columns: 1fr 1fr; }
+  .collage { column-count: 3; }
 
   .galerie-grid { grid-template-columns: 1fr 1fr; }
   .socials-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
@@ -1469,10 +1494,11 @@ ul { list-style: none; }
   .orgA__dept:nth-child(n) { margin-bottom: 0; }
   .orgA__members { grid-template-columns: 1fr; }
 
-  .showcase__grid { gap: var(--space-4); }
+  .collage { column-count: 2; column-gap: var(--space-4); }
+  .collage__sticker { bottom: 52px; }
 
   .pendant3d { min-height: 420px; }
-  .pendant3d__spin { width: 188px; height: 391px; }
+  .pendant3d__spin { width: 248px; height: 380px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

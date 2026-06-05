@@ -340,52 +340,72 @@
           </div>
         </div>
 
-        <!-- Impressionen – Motion-Showcase -->
+        <!-- Impressionen – spielerische Collage -->
         <div class="showcase">
           <div class="page-head">
             <p class="overline">Impressionen</p>
             <h2>Dein Anhänger im echten Leben.</h2>
-            <p class="page-head__sub">Echtes Kupfer, echte Momente. Beweg die Maus über die Bilder.</p>
+            <p class="page-head__sub">Echtes Kupfer, echte Momente. Tipp rein, schau zu, dreh durch.</p>
           </div>
-          <div class="showcase__grid">
-            <figure class="showcase__card reveal" data-tilt>
-              <div class="showcase__media">
+          <div class="collage">
+            <figure class="collage__item collage__item--video reveal" data-tilt>
+              <span class="collage__tape" aria-hidden="true"></span>
+              <div class="collage__media">
+                <video class="collage__video" autoplay muted loop playsinline preload="metadata"
+                       poster="assets/produkt-clip-poster.jpg">
+                  <source src="assets/produkt-clip.mp4" type="video/mp4" />
+                </video>
+                <span class="collage__badge"><span class="collage__dot"></span> Clip</span>
+                <span class="showcase__sheen" aria-hidden="true"></span>
+              </div>
+              <figcaption class="collage__cap">
+                <span class="collage__cap-title">Frisch ausgepackt</span>
+                <span class="collage__cap-sub">Anhänger &amp; Beutel in Bewegung</span>
+              </figcaption>
+            </figure>
+
+            <figure class="collage__item reveal" data-tilt>
+              <div class="collage__media">
                 <img src="assets/produkt-pouch.jpg" alt="Kupfer-Anhänger mit NFCunnect-Stoffbeutel" loading="lazy" />
                 <span class="showcase__sheen" aria-hidden="true"></span>
               </div>
-              <figcaption class="showcase__cap">
-                <span class="showcase__cap-title">Bereit zum Verschenken</span>
-                <span class="showcase__cap-sub">Anhänger im Stoffbeutel</span>
+              <span class="collage__sticker">Geschenkfertig</span>
+              <figcaption class="collage__cap">
+                <span class="collage__cap-title">Bereit zum Verschenken</span>
               </figcaption>
             </figure>
-            <figure class="showcase__card reveal" data-tilt>
-              <div class="showcase__media">
+
+            <figure class="collage__item reveal" data-tilt>
+              <span class="collage__tape" aria-hidden="true"></span>
+              <div class="collage__media">
                 <img src="assets/produkt-plant.jpg" alt="Kupfer-Anhänger an einer Pflanze" loading="lazy" />
                 <span class="showcase__sheen" aria-hidden="true"></span>
               </div>
-              <figcaption class="showcase__cap">
-                <span class="showcase__cap-title">Immer dabei</span>
-                <span class="showcase__cap-sub">Ein Hingucker im Alltag</span>
+              <figcaption class="collage__cap">
+                <span class="collage__cap-title">Immer dabei</span>
               </figcaption>
             </figure>
-            <figure class="showcase__card reveal" data-tilt>
-              <div class="showcase__media">
+
+            <figure class="collage__item reveal" data-tilt>
+              <div class="collage__media">
                 <img src="assets/produkt-plant2.jpg" alt="Kupfer-Anhänger an einem Pflanzenstiel" loading="lazy" />
                 <span class="showcase__sheen" aria-hidden="true"></span>
               </div>
-              <figcaption class="showcase__cap">
-                <span class="showcase__cap-title">Natürlich vernetzt</span>
-                <span class="showcase__cap-sub">Nachhaltig &amp; langlebig</span>
+              <span class="collage__sticker collage__sticker--alt">Nachhaltig</span>
+              <figcaption class="collage__cap">
+                <span class="collage__cap-title">Natürlich vernetzt</span>
               </figcaption>
             </figure>
-            <figure class="showcase__card reveal" data-tilt>
-              <div class="showcase__media">
+
+            <figure class="collage__item reveal" data-tilt>
+              <span class="collage__tape" aria-hidden="true"></span>
+              <div class="collage__media">
                 <img src="assets/produkt-flatlay.jpg" alt="Kupfer-Anhänger liegend auf dem Stoffbeutel" loading="lazy" />
                 <span class="showcase__sheen" aria-hidden="true"></span>
               </div>
-              <figcaption class="showcase__cap">
-                <span class="showcase__cap-title">Liebe zum Detail</span>
-                <span class="showcase__cap-sub">Anhänger &amp; Beutel</span>
+              <span class="collage__sticker">Handmade</span>
+              <figcaption class="collage__cap">
+                <span class="collage__cap-title">Liebe zum Detail</span>
               </figcaption>
             </figure>
           </div>

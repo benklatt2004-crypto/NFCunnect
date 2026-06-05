@@ -243,8 +243,8 @@ function initPendant3d() {
   const root = document.getElementById('pendant3d');
   if (!root) return;
 
-  const FRONT = 'assets/pendant-front.png';
-  const BACK  = 'assets/pendant-back.png';
+  const FRONT = 'assets/pendant-front.webp';
+  const BACK  = 'assets/pendant-back.webp';
   const HALF  = 5;   // halbe Dicke in px
   const LAYERS = 10; // Zwischenebenen für die Kante (Extrusion)
 
@@ -279,11 +279,14 @@ function initPendant3d() {
   root.insertBefore(spin, root.firstChild);
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let rotY = -22, auto = !reduce, dragging = false, lastX = 0, idleTimer = null;
+  let rotY = -22, auto = !reduce, dragging = false, lastX = 0, idleTimer = null, t = 0;
 
   function render() {
-    spin.style.transform = `rotateX(-8deg) rotateY(${rotY}deg)`;
-    if (auto && !dragging) rotY += 0.35;
+    t += 0.016;
+    const bob = reduce ? 0 : Math.sin(t * 1.1) * 7;        // sanftes Schweben
+    const tilt = reduce ? -8 : -8 + Math.sin(t * 0.7) * 3; // leichtes Kippen
+    spin.style.transform = `translateY(${bob}px) rotateX(${tilt}deg) rotateY(${rotY}deg)`;
+    if (auto && !dragging) rotY += 0.3;
     requestAnimationFrame(render);
   }
   requestAnimationFrame(render);
@@ -314,7 +317,7 @@ function initPendant3d() {
    Showcase – 3D tilt pro Karte (Motion)
    ══════════════════════════════ */
 function initShowcaseTilt() {
-  const cards = document.querySelectorAll('.showcase__card[data-tilt]');
+  const cards = document.querySelectorAll('[data-tilt]');
   if (!cards.length) return;
   if (window.matchMedia('(hover: none)').matches) return; // Touch: kein Tilt
 
@@ -325,11 +328,12 @@ function initShowcaseTilt() {
       const y = ((e.clientY - top)  / height - .5) * -12;
       card.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
       card.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
-      card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-6px)`;
+      // Hover richtet die Karte gerade aus und neigt sie zum Cursor
+      card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-8px) scale(1.03)`;
       card.style.transition = 'transform .08s linear';
     });
     card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
+      card.style.transform = '';   // zurück zur spielerischen Ruhe-Neigung (CSS)
       card.style.transition = 'transform .55s cubic-bezier(0.22,1,0.36,1)';
     });
   });
