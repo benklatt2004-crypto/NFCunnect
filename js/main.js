@@ -167,13 +167,18 @@ const ORG_DEPTS = [
 
 function initOrgchart() {
   buildOrgRadial(document.getElementById('orgA'));
-  buildOrgTree(document.getElementById('orgB'));
   renderIcons();
 }
 
-/* Variante A – Halbkreis: Abteilungen auf einem Bogen, Vorstand zentral, Klick zeigt Mitglieder */
+/* Halbkreis-Organigramm: Vorstand oben, Abteilungen auf einem Bogen, Klick zeigt Mitglieder */
 function buildOrgRadial(root) {
   if (!root) return;
+
+  const center = document.createElement('div');
+  center.className = 'orgA__center';
+  center.innerHTML =
+    `<span class="orgA__center-label">Vorstand</span>` +
+    `<span class="orgA__center-names">${ORG_VORSTAND.join(' · ')}</span>`;
 
   const arc = document.createElement('div');
   arc.className = 'orgA__arc';
@@ -181,25 +186,18 @@ function buildOrgRadial(root) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'orgA__dept';
-    btn.style.setProperty('--pos', i);
     btn.setAttribute('aria-pressed', 'false');
     btn.innerHTML = `<i data-lucide="${dept.icon}"></i><span>${dept.name}</span>`;
     btn.addEventListener('click', () => selectDept(i));
     arc.appendChild(btn);
   });
 
-  const center = document.createElement('div');
-  center.className = 'orgA__center';
-  center.innerHTML =
-    `<i data-lucide="crown"></i><span class="orgA__center-label">Vorstand</span>` +
-    `<span class="orgA__center-names">${ORG_VORSTAND.join(' · ')}</span>`;
-
   const panel = document.createElement('div');
   panel.className = 'orgA__panel';
   panel.setAttribute('aria-live', 'polite');
   panel.innerHTML = `<p class="orgA__hint">Wähle eine Abteilung aus.</p>`;
 
-  root.append(arc, center, panel);
+  root.append(center, arc, panel);
 
   function selectDept(idx) {
     const depts = [...arc.querySelectorAll('.orgA__dept')];
@@ -214,59 +212,6 @@ function buildOrgRadial(root) {
       `<ul class="orgA__members">${dept.members.map(m => `<li>${m}</li>`).join('')}</ul>`;
     renderIcons();
   }
-}
-
-/* Variante B – Baum: Vorstand oben, Abteilungen als Accordion-Karten */
-function buildOrgTree(root) {
-  if (!root) return;
-
-  const board = document.createElement('div');
-  board.className = 'orgB__board';
-  board.innerHTML =
-    `<span class="orgB__board-label"><i data-lucide="crown"></i> Vorstand</span>` +
-    `<div class="orgB__board-names">${ORG_VORSTAND.map(n => `<span class="orgB__chip">${n}</span>`).join('')}</div>`;
-
-  const list = document.createElement('div');
-  list.className = 'orgB__list';
-
-  ORG_DEPTS.forEach((dept, i) => {
-    const card = document.createElement('div');
-    card.className = 'orgB__card';
-
-    const head = document.createElement('button');
-    head.type = 'button';
-    head.className = 'orgB__head';
-    head.id = `orgB-head-${i}`;
-    head.setAttribute('aria-expanded', 'false');
-    head.setAttribute('aria-controls', `orgB-body-${i}`);
-    head.innerHTML =
-      `<span class="orgB__head-main"><i data-lucide="${dept.icon}"></i> ${dept.name}</span>` +
-      `<span class="orgB__count mono">${dept.members.length}</span>` +
-      `<i data-lucide="chevron-down" class="orgB__chev"></i>`;
-
-    const body = document.createElement('div');
-    body.className = 'orgB__body';
-    body.id = `orgB-body-${i}`;
-    body.setAttribute('role', 'region');
-    body.setAttribute('aria-labelledby', `orgB-head-${i}`);
-    body.innerHTML = `<ul class="orgB__members">${dept.members.map(m => `<li>${m}</li>`).join('')}</ul>`;
-
-    head.addEventListener('click', () => {
-      const open = head.getAttribute('aria-expanded') === 'true';
-      // Nur eine Karte gleichzeitig offen
-      list.querySelectorAll('.orgB__head').forEach(h => h.setAttribute('aria-expanded', 'false'));
-      list.querySelectorAll('.orgB__card').forEach(c => c.classList.remove('is-open'));
-      if (!open) {
-        head.setAttribute('aria-expanded', 'true');
-        card.classList.add('is-open');
-      }
-    });
-
-    card.append(head, body);
-    list.appendChild(card);
-  });
-
-  root.append(board, list);
 }
 
 /* ══════════════════════════════
