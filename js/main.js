@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initThumbs();
   initHeroTilt();
   initProduktTilt();
+  initShowcaseTilt();
   initHowSteps();
   initTapDemo();
   initCoop();
@@ -231,6 +232,31 @@ function initHeroTilt() {
   tilt.addEventListener('mouseleave', () => {
     tilt.style.transform = '';
     tilt.style.transition = 'transform .5s cubic-bezier(0.22,1,0.36,1)';
+  });
+}
+
+/* ══════════════════════════════
+   Showcase – 3D tilt pro Karte (Motion)
+   ══════════════════════════════ */
+function initShowcaseTilt() {
+  const cards = document.querySelectorAll('.showcase__card[data-tilt]');
+  if (!cards.length) return;
+  if (window.matchMedia('(hover: none)').matches) return; // Touch: kein Tilt
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const { left, top, width, height } = card.getBoundingClientRect();
+      const x = ((e.clientX - left) / width  - .5) * 12;
+      const y = ((e.clientY - top)  / height - .5) * -12;
+      card.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
+      card.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
+      card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-6px)`;
+      card.style.transition = 'transform .08s linear';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform .55s cubic-bezier(0.22,1,0.36,1)';
+    });
   });
 }
 

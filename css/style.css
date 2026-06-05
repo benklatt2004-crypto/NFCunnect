@@ -810,6 +810,68 @@ ul { list-style: none; }
 .chip-spec__val { font-family: var(--font-mono); font-size: .88rem; color: var(--copper-300); }
 
 /* ════════════════════════════════════
+   MOTION-SHOWCASE (Impressionen)
+   ════════════════════════════════════ */
+.showcase { margin-top: var(--space-16); }
+.showcase .page-head { margin-bottom: 0; }
+.showcase__grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5); margin-top: var(--space-8);
+}
+.showcase__card {
+  position: relative; border-radius: var(--radius-lg); overflow: hidden;
+  background: var(--night-800); border: 1px solid var(--border);
+  box-shadow: var(--shadow-md); cursor: pointer;
+  transform-style: preserve-3d; will-change: transform;
+  animation: showcaseFloat 6s ease-in-out infinite;
+  transition: box-shadow var(--dur-std) var(--ease), border-color var(--dur-std) var(--ease);
+}
+.showcase__card:nth-child(2) { animation-delay: -1.5s; }
+.showcase__card:nth-child(3) { animation-delay: -3s; }
+.showcase__card:nth-child(4) { animation-delay: -4.5s; }
+.showcase__card:hover { box-shadow: 0 22px 55px var(--glow-copper-lg); border-color: var(--copper-400); }
+@keyframes showcaseFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+
+.showcase__media { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
+.showcase__media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  animation: showcaseKen 20s ease-in-out infinite alternate;
+}
+@keyframes showcaseKen {
+  from { transform: scale(1.04) translate(0, 0); }
+  to   { transform: scale(1.14) translate(2%, -3%); }
+}
+/* Cursor-folgender Kupfer-Glow */
+.showcase__media::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--glow-copper-lg), transparent 55%);
+  transition: opacity var(--dur-std) var(--ease);
+}
+.showcase__card:hover .showcase__media::after { opacity: 1; }
+
+/* Glanz-Sweep über das Bild */
+.showcase__sheen {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.28) 48%, transparent 66%);
+  transform: translateX(-130%);
+  transition: transform .85s var(--ease);
+}
+.showcase__card:hover .showcase__sheen { transform: translateX(130%); }
+
+.showcase__cap {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: flex; flex-direction: column; gap: 2px;
+  padding: var(--space-8) var(--space-4) var(--space-4);
+  background: linear-gradient(to top, rgba(14,8,6,.88), rgba(14,8,6,.35) 60%, transparent);
+  color: #fff;
+  transform: translateY(10px); opacity: .9;
+  transition: transform var(--dur-std) var(--ease), opacity var(--dur-std) var(--ease);
+}
+.showcase__card:hover .showcase__cap { transform: translateY(0); opacity: 1; }
+.showcase__cap-title { font-family: var(--font-display); font-weight: 800; font-size: 1rem; }
+.showcase__cap-sub { font-size: .8rem; color: var(--copper-200); }
+
+/* ════════════════════════════════════
    GALERIE – Flip Cards mit Lucide
    ════════════════════════════════════ */
 .galerie-grid {
@@ -1355,6 +1417,7 @@ ul { list-style: none; }
 
   .produkt-grid { grid-template-columns: 1fr; gap: var(--space-8); }
   .chip-spec__grid { grid-template-columns: 1fr 1fr; }
+  .showcase__grid { grid-template-columns: 1fr 1fr; }
 
   .galerie-grid { grid-template-columns: 1fr 1fr; }
   .socials-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
@@ -1373,6 +1436,8 @@ ul { list-style: none; }
   .orgA__dept { width: 80px; }
   .orgA__dept:nth-child(n) { margin-bottom: 0; }
   .orgA__members { grid-template-columns: 1fr; }
+
+  .showcase__grid { gap: var(--space-4); }
 }
 
 @media (prefers-reduced-motion: reduce) {
