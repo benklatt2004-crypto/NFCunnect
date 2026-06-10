@@ -772,7 +772,7 @@ ul { list-style: none; }
   background: radial-gradient(120% 95% at 50% 42%, #FDF4EA 0%, #FAE3C4 100%);
   transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), box-shadow var(--dur-fast);
 }
-.thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.45); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.7); }
 .thumb:hover { transform: translateY(-2px); border-color: var(--ink-300); }
 .thumb--active { border-color: var(--primary); box-shadow: 0 0 0 3px var(--glow-copper); }
 
