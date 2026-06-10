@@ -733,27 +733,30 @@ ul { list-style: none; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
-  background: var(--night-800);
+  /* Creme/Kupfer-Verlauf — die Anhänger-Bilder sind transparente Freisteller */
+  background: radial-gradient(120% 95% at 50% 42%, #FDF4EA 0%, #FAE3C4 100%);
   user-select: none;
 }
+/* Hover-Glow folgt dem Cursor — liegt HINTER dem Anhänger (z-index 1 < 2) */
 .produkt-stage::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0;
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0;
   background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--glow-copper-lg), transparent 55%);
   transition: opacity var(--dur-std) var(--ease);
 }
 .produkt-stage:hover::after { opacity: 1; }
 #produkt-main {
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: 50% 50%;
-  transform: scale(1.04);
-  transition: transform .5s var(--ease), opacity .22s var(--ease);
-  will-change: transform;
+  transition: opacity .22s var(--ease);
 }
 .produkt-stage__glow {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: radial-gradient(ellipse 60% 40% at 50% 75%, var(--glow-copper) 0%, transparent 65%);
   pointer-events: none;
 }
@@ -766,10 +769,10 @@ ul { list-style: none; }
   overflow: hidden;
   padding: 0;
   border: 2px solid var(--border);
-  background: var(--ink-100);
+  background: radial-gradient(120% 95% at 50% 42%, #FDF4EA 0%, #FAE3C4 100%);
   transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), box-shadow var(--dur-fast);
 }
-.thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.15); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.45); }
 .thumb:hover { transform: translateY(-2px); border-color: var(--ink-300); }
 .thumb--active { border-color: var(--primary); box-shadow: 0 0 0 3px var(--glow-copper); }
 
