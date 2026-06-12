@@ -31,7 +31,7 @@
       <nav class="tabs" aria-label="Seiten-Navigation">
         <button class="tab tab--active" data-tab="home">Start</button>
         <button class="tab" data-tab="produkt">Produkt</button>
-        <button class="tab" data-tab="galerie">Galerie</button>
+        <button class="tab" data-tab="galerie">Use Cases</button>
         <button class="tab" data-tab="ueber">Über uns</button>
         <button class="tab tab--socials" data-tab="socials">Socials</button>
         <button class="tab" data-tab="kontakt">Kontakt</button>
@@ -43,7 +43,7 @@
     <div class="mobile-nav" aria-hidden="true">
       <button class="tab" data-tab="home">Start</button>
       <button class="tab" data-tab="produkt">Produkt</button>
-      <button class="tab" data-tab="galerie">Galerie</button>
+      <button class="tab" data-tab="galerie">Use Cases</button>
       <button class="tab" data-tab="ueber">Über uns</button>
       <button class="tab" data-tab="socials">Socials</button>
       <button class="tab" data-tab="kontakt">Kontakt</button>
@@ -175,7 +175,7 @@
       <div class="sustain-banner">
         <div class="sustain-inner">
           <i data-lucide="recycle"></i>
-          <p><strong>Nachhaltig gedacht.</strong> Kupfer ist langlebig und vollständig recycelbar. Kein Papier, kein Druck — der Chip ist unbegrenzt neu beschreibbar.</p>
+          <p><strong>Nachhaltig gedacht.</strong> Kupfer ist langlebig und vollständig recycelbar. Kein Papier, kein Druck. Der Chip ist unbegrenzt neu beschreibbar.</p>
         </div>
       </div>
 
@@ -248,20 +248,21 @@
           <p class="overline">Unser Produkt</p>
           <h2>Ein Anhänger.<br>Unendlich viele Möglichkeiten.</h2>
         </div>
+
         <div class="produkt-grid">
           <div class="produkt-media">
             <div class="produkt-stage" id="produkt-tilt">
-              <img id="produkt-main" src="assets/chip-dunkel.jpg" alt="NFCunnect Kupfer-Anhänger mit NFC-Chip" />
+              <img id="produkt-main" src="assets/show-front.webp" alt="NFCunnect Kupfer-Anhänger mit NFC-Chip" />
               <div class="produkt-stage__glow" aria-hidden="true"></div>
             </div>
-            <div class="thumbs" role="group" aria-label="Weitere Eindrücke">
-              <button class="thumb thumb--active" data-img="assets/chip-dunkel.jpg"><img src="assets/chip-dunkel.jpg" alt="" /></button>
-              <button class="thumb" data-img="assets/chip-orange.jpg"><img src="assets/chip-orange.jpg" alt="" /></button>
-              <button class="thumb" data-img="assets/chip-weiss.jpg"><img src="assets/chip-weiss.jpg" alt="" /></button>
-              <button class="thumb" data-img="assets/chip-beige.jpg"><img src="assets/chip-beige.jpg" alt="" /></button>
-              <button class="thumb" data-img="assets/chip-slate.jpg"><img src="assets/chip-slate.jpg" alt="" /></button>
+            <div class="thumbs" role="group" aria-label="Weitere Ansichten">
+              <button class="thumb thumb--active" data-img="assets/show-front.webp"><img src="assets/show-front.webp" alt="Vorderseite" /></button>
+              <button class="thumb" data-img="assets/show-angle.webp"><img src="assets/show-angle.webp" alt="Dreiviertel-Ansicht" /></button>
+              <button class="thumb" data-img="assets/show-front-angle.webp"><img src="assets/show-front-angle.webp" alt="Vorderseite im Winkel" /></button>
+              <button class="thumb" data-img="assets/show-back.webp"><img src="assets/show-back.webp" alt="Rückseite" /></button>
+              <button class="thumb" data-img="assets/show-back-angle.webp"><img src="assets/show-back-angle.webp" alt="Rückseite im Winkel" /></button>
             </div>
-            <p class="variant-note mono">Jedes Stück — von Hand gefertigt.</p>
+            <p class="variant-note mono">Jedes Stück, von Hand gefertigt.</p>
           </div>
           <ul class="feature-list">
             <li class="feature reveal">
@@ -296,7 +297,7 @@
               <div class="feature__icon"><i data-lucide="leaf"></i></div>
               <div>
                 <h3>Nachhaltig</h3>
-                <p>Kein Papier, kein Druck. Der Chip ist unbegrenzt neu beschreibbar — kein Wegwerfprodukt.</p>
+                <p>Kein Papier, kein Druck. Der Chip ist unbegrenzt neu beschreibbar. Kein Wegwerfprodukt.</p>
               </div>
             </li>
           </ul>
@@ -307,12 +308,20 @@
           <p class="overline">Technische Details</p>
           <div class="chip-spec__grid">
             <div class="chip-spec__item">
-              <span class="chip-spec__label">Typ</span>
-              <span class="chip-spec__val mono">NFC Type 2</span>
+              <span class="chip-spec__label">Chip</span>
+              <span class="chip-spec__val mono">NTAG216</span>
             </div>
             <div class="chip-spec__item">
               <span class="chip-spec__label">Standard</span>
               <span class="chip-spec__val mono">ISO 14443-A</span>
+            </div>
+            <div class="chip-spec__item">
+              <span class="chip-spec__label">Speicher</span>
+              <span class="chip-spec__val mono">924 Byte</span>
+            </div>
+            <div class="chip-spec__item">
+              <span class="chip-spec__label">Frequenz</span>
+              <span class="chip-spec__val mono">13,56 MHz</span>
             </div>
             <div class="chip-spec__item">
               <span class="chip-spec__label">Kompatibilität</span>
@@ -324,11 +333,26 @@
             </div>
           </div>
         </div>
+
+        <!-- Produktvideo -->
+        <div class="produkt-video reveal">
+          <div class="page-head">
+            <p class="overline">Bewegtbild</p>
+            <h2>Frisch ausgepackt.</h2>
+            <p class="page-head__sub">Echtes Kupfer, echter Moment.</p>
+          </div>
+          <div class="produkt-video__frame">
+            <video autoplay muted loop playsinline preload="metadata" poster="assets/produkt-clip-poster.jpg">
+              <source src="assets/produkt-clip.mp4" type="video/mp4" />
+            </video>
+            <span class="produkt-video__badge"><span class="produkt-video__dot"></span> Clip</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ══ GALERIE ════════════════════════════════════════════════════════ -->
-    <section class="page" id="page-galerie" aria-label="Galerie">
+    <section class="page" id="page-galerie" aria-label="Use Cases">
       <div class="page-inner">
         <div class="page-head">
           <p class="overline">Use Cases</p>
@@ -364,7 +388,7 @@
               <div class="flip-card__back">
                 <i data-lucide="share-2" class="back-lucide"></i>
                 <h3>Social Media</h3>
-                <p>Instagram, TikTok oder dein ganzes Linktree teilen. Ein Scan reicht — niemand muss deinen Namen suchen.</p>
+                <p>Instagram, TikTok oder deine Website teilen. Ein Scan reicht, niemand muss deinen Namen suchen.</p>
               </div>
             </div>
           </div>
@@ -389,14 +413,14 @@
             <div class="flip-card__inner">
               <div class="flip-card__front">
                 <div class="flip-card__art">
-                  <i data-lucide="wifi" class="art-icon"></i>
+                  <i data-lucide="link" class="art-icon"></i>
                 </div>
-                <span class="card-label">WLAN</span>
+                <span class="card-label">Linktree</span>
               </div>
               <div class="flip-card__back">
-                <i data-lucide="wifi" class="back-lucide"></i>
-                <h3>WLAN teilen</h3>
-                <p>Gäste tippen den Anhänger an und sind im Netz. Kein Passwort ansagen — praktisch im Café, Büro und zu Hause.</p>
+                <i data-lucide="link" class="back-lucide"></i>
+                <h3>Linktree teilen</h3>
+                <p>Alle deine Links auf einen Scan. Social Media, Website und Kontakt gebündelt an einem Ort, ganz ohne Tippen oder Suchen.</p>
               </div>
             </div>
           </div>
@@ -444,19 +468,43 @@
           <p class="overline">Wer wir sind</p>
           <h2>Über uns</h2>
         </div>
+        <!-- Teamfoto -->
+        <figure class="ueber-team reveal">
+          <img src="assets/team.png" alt="Das NFCunnect-Team" class="ueber-team__img" loading="lazy" />
+          <figcaption class="ueber-team__cap">Das Team hinter NFCunnect</figcaption>
+        </figure>
+
+        <!-- Organigramm -->
+        <div class="org-head reveal">
+          <p class="overline">Wie wir aufgestellt sind</p>
+          <h2>Unser Team</h2>
+          <p class="page-head__sub">Tipp auf eine Abteilung und entdecke, wer dahintersteht.</p>
+        </div>
+        <div class="orgchart reveal">
+          <div id="orgA" class="orgA" aria-label="Organigramm"></div>
+        </div>
+
         <div class="ueber-grid">
           <div class="ueber-text reveal">
             <p>
-              Wir sind <strong>NFCunnect</strong>, eine Juniorfirma von
+              Wir sind <strong>NFCunnect</strong>, eine Juniorfirma aus
               Auszubildenden und Studierenden bei <strong>Aurubis</strong> in
-              Hamburg, unserem Kooperationspartner. Wir bauen Kupfer-Anhänger
-              mit NFC-Chip: selbst gestaltet, selbst programmiert und selbst
-              verkauft.
+              Hamburg. Unser Unternehmen führen wir im Rahmen unserer Ausbildung
+              und unseres Studiums, um schon während der Lernzeit echte
+              Praxiserfahrung zu sammeln. Von der ersten Idee über Marketing und
+              Vertrieb bis zur Buchhaltung treffen wir jede Entscheidung selbst.
             </p>
             <p>
-              Jeder Anhänger ist aus hochwertigem Kupfer und von Hand gefertigt.
-              Die Idee: Ein alltäglicher Gegenstand wird mit einem kurzen Scan
-              zur Verbindung zwischen Menschen.
+              Die Kupferrohlinge unserer Anhänger werden präzise und maschinell
+              gefertigt. Ihren Charakter bekommen sie
+              dann bei uns: Wir gestalten, bekleben und programmieren jeden
+              einzelnen Anhänger von Hand und machen aus dem reinen Kupferstück
+              einen smarten Begleiter mit NFC-Chip.
+            </p>
+            <p>
+              Die Idee dahinter ist so einfach wie wirkungsvoll: ein alltäglicher
+              Gegenstand wird mit einem einzigen Scan zur Verbindung zwischen
+              Menschen. Schnell, nachhaltig und ganz ohne App.
             </p>
             <div class="ueber-values">
               <span class="value-pill"><i data-lucide="link-2"></i> Verbindung</span>
@@ -479,12 +527,22 @@
             </div>
             <div class="stat reveal">
               <span class="stat__num mono" data-target="100">0</span><span class="stat__suffix mono">%</span>
-              <p>Handarbeit</p>
+              <p>selbst veredelt</p>
             </div>
             <div class="stat reveal">
               <span class="stat__num mono" data-target="1">0</span>
               <p>Scan genügt</p>
             </div>
+          </div>
+        </div>
+
+        <!-- Kooperation -->
+        <div class="coop reveal">
+          <p class="coop__label">In Kooperation mit</p>
+          <div class="coop__logos">
+            <img src="assets/logo-trim.png" alt="NFCunnect" class="coop__logo" loading="lazy" />
+            <span class="coop__x" aria-hidden="true">&times;</span>
+            <img src="assets/aurubis-logo.png" alt="Aurubis" class="coop__logo coop__logo--partner" id="coop-aurubis" loading="lazy" />
           </div>
         </div>
       </div>
@@ -496,7 +554,7 @@
         <div class="page-head">
           <p class="overline">Folge uns</p>
           <h2>Lass uns <em>cunnecten.</em></h2>
-          <p class="page-head__sub">Behind the Scenes, neue Designs und Aktionen — folg uns auf deiner Plattform.</p>
+          <p class="page-head__sub">Behind the Scenes, neue Designs und Aktionen, folg uns auf deiner Plattform.</p>
         </div>
 
         <!-- Laufband -->
@@ -552,9 +610,6 @@
 
         </div>
 
-        <p class="socials-foot">
-          Oder scann einfach deinen NFCunnect-Anhänger — er bringt dich direkt zu uns.
-        </p>
       </div>
     </section>
 
@@ -564,7 +619,7 @@
         <div class="page-head">
           <p class="overline">Let's Cunnect</p>
           <h2>Schreib uns.</h2>
-          <p class="page-head__sub">Interesse, Fragen, Bestellung — meld dich einfach.</p>
+          <p class="page-head__sub">Interesse, Fragen, Bestellung? Meld dich einfach.</p>
         </div>
         <div class="kontakt-card reveal">
           <form id="kontakt-form" novalidate>

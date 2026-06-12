@@ -24,9 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initThumbs();
   initHeroTilt();
   initProduktTilt();
+  initShowcaseTilt();
   initHowSteps();
   initTapDemo();
+  initCoop();
   initTypewriter();
+  initOrgchart();
   initReveal();
 });
 
@@ -130,7 +133,7 @@ function triggerReveal() {
 /* ══════════════════════════════
    Typewriter – Hero
    ══════════════════════════════ */
-const typeWords = ['Networking.', 'dein Instagram.', 'WLAN teilen.', 'Google Bewertungen.', 'deine Visitenkarte.', 'Events & Messen.'];
+const typeWords = ['Networking.', 'dein Instagram.', 'deinen Linktree.', 'Google Bewertungen.', 'deine Visitenkarte.', 'Events & Messen.'];
 let twIdx = 0, twChar = 0, twDeleting = false;
 
 function initTypewriter() {
@@ -148,6 +151,67 @@ function initTypewriter() {
       if (twChar === 0) { twDeleting = false; twIdx = (twIdx + 1) % typeWords.length; }
     }
     setTimeout(tick, twDeleting ? 48 : 72);
+  }
+}
+
+/* ══════════════════════════════
+   Organigramm – interaktiv
+   ══════════════════════════════ */
+const ORG_VORSTAND = ['Ben Klatt', 'Lara Untersteiner', 'Bugra Ali Aricelik'];
+const ORG_DEPTS = [
+  { name: 'Produktion', icon: 'package',   members: ['Paulina Großschädel', 'Arda Erdem', 'Zoe Kunkel', 'Ayca Kilictas'] },
+  { name: 'Personal',   icon: 'users',     members: ['Meltem Yücel', 'Jill Cecil Zülske', 'Sadja Steinhauer', 'Dilan Incesu'] },
+  { name: 'Marketing',  icon: 'megaphone', members: ['Fatih Özdemir', 'Ben Klatt', 'Jule Härtel', 'Annalena Poppe'] },
+  { name: 'Finanzen',   icon: 'wallet',    members: ['Lara Untersteiner', 'Leonard Brüggen', 'Vinzenz Schelmann', 'Nouree Bien'] },
+  { name: 'Vertrieb',   icon: 'handshake', members: ['Bugra Ali Aricelik', 'Finn Amelunxen', 'Jonas Wörz'] },
+];
+
+function initOrgchart() {
+  buildOrgRadial(document.getElementById('orgA'));
+  renderIcons();
+}
+
+/* Halbkreis-Organigramm: Vorstand oben, Abteilungen auf einem Bogen, Klick zeigt Mitglieder */
+function buildOrgRadial(root) {
+  if (!root) return;
+
+  const center = document.createElement('div');
+  center.className = 'orgA__center';
+  center.innerHTML =
+    `<span class="orgA__center-label">Vorstand</span>` +
+    `<span class="orgA__center-names">${ORG_VORSTAND.join(' · ')}</span>`;
+
+  const arc = document.createElement('div');
+  arc.className = 'orgA__arc';
+  ORG_DEPTS.forEach((dept, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'orgA__dept';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML = `<i data-lucide="${dept.icon}"></i><span>${dept.name}</span>`;
+    btn.addEventListener('click', () => selectDept(i));
+    arc.appendChild(btn);
+  });
+
+  const panel = document.createElement('div');
+  panel.className = 'orgA__panel';
+  panel.setAttribute('aria-live', 'polite');
+  panel.innerHTML = `<p class="orgA__hint">Wähle eine Abteilung aus.</p>`;
+
+  root.append(center, arc, panel);
+
+  function selectDept(idx) {
+    const depts = [...arc.querySelectorAll('.orgA__dept')];
+    depts.forEach((b, i) => {
+      const active = i === idx;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', String(active));
+    });
+    const dept = ORG_DEPTS[idx];
+    panel.innerHTML =
+      `<p class="orgA__panel-title"><i data-lucide="${dept.icon}"></i> ${dept.name}</p>` +
+      `<ul class="orgA__members">${dept.members.map(m => `<li>${m}</li>`).join('')}</ul>`;
+    renderIcons();
   }
 }
 
@@ -172,6 +236,32 @@ function initHeroTilt() {
 }
 
 /* ══════════════════════════════
+   Showcase – 3D tilt pro Karte (Motion)
+   ══════════════════════════════ */
+function initShowcaseTilt() {
+  const cards = document.querySelectorAll('[data-tilt]');
+  if (!cards.length) return;
+  if (window.matchMedia('(hover: none)').matches) return; // Touch: kein Tilt
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const { left, top, width, height } = card.getBoundingClientRect();
+      const x = ((e.clientX - left) / width  - .5) * 12;
+      const y = ((e.clientY - top)  / height - .5) * -12;
+      card.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
+      card.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
+      // Hover richtet die Karte gerade aus und neigt sie zum Cursor
+      card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-8px) scale(1.03)`;
+      card.style.transition = 'transform .08s linear';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';   // zurück zur spielerischen Ruhe-Neigung (CSS)
+      card.style.transition = 'transform .55s cubic-bezier(0.22,1,0.36,1)';
+    });
+  });
+}
+
+/* ══════════════════════════════
    Produkt – 3D tilt
    ══════════════════════════════ */
 function initProduktTilt() {
@@ -182,6 +272,8 @@ function initProduktTilt() {
     const { left, top, width, height } = stage.getBoundingClientRect();
     const x = ((e.clientX - left) / width  - .5) * 14;
     const y = ((e.clientY - top)  / height - .5) * -14;
+    stage.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
+    stage.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
     stage.style.transform = `perspective(600px) rotateY(${x}deg) rotateX(${y}deg)`;
     stage.style.transition = 'transform .08s linear';
   });
@@ -296,6 +388,25 @@ function countUp(el) {
   requestAnimationFrame(run);
 }
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+/* ══════════════════════════════
+   Kooperation – Aurubis-Logo-Fallback
+   Zeigt einen sauberen Schriftzug, falls
+   assets/aurubis-logo.png (noch) fehlt.
+   ══════════════════════════════ */
+function initCoop() {
+  const logo = document.getElementById('coop-aurubis');
+  if (!logo) return;
+  const showFallback = () => {
+    const span = document.createElement('span');
+    span.className = 'coop__wordmark';
+    span.textContent = 'Aurubis';
+    logo.replaceWith(span);
+  };
+  logo.addEventListener('error', showFallback);
+  // Falls das Bild bereits als "broken" geladen wurde
+  if (logo.complete && logo.naturalWidth === 0) showFallback();
+}
 
 /* ══════════════════════════════
    Kontaktformular – Web3Forms
