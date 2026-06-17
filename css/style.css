@@ -208,6 +208,7 @@ ul { list-style: none; }
 .btn--tap:hover { border-color: var(--primary); color: var(--primary); }
 .btn--tap.tapping { animation: tapPulse .6s var(--ease); }
 .btn--full { width: 100%; justify-content: center; }
+.btn--lg { padding: 1rem 2.1rem; font-size: 1.05rem; }
 
 @keyframes tapPulse {
   0%   { box-shadow: 0 0 0 0 var(--glow-copper-lg); }
@@ -719,6 +720,28 @@ ul { list-style: none; }
 /* ════════════════════════════════════
    PRODUKT
    ════════════════════════════════════ */
+/* Produkt-Intro: Fließtext mit animiertem Marker-Highlight */
+.produkt-lead {
+  max-width: 720px;
+  margin: var(--space-6) 0 var(--space-12);
+  font-size: clamp(1.1rem, 2.3vw, 1.4rem);
+  line-height: 1.85;
+  color: var(--ink-700);
+}
+.produkt-lead b {
+  font-weight: 700;
+  color: var(--ink-900);
+  white-space: nowrap;
+  padding: .05em .14em;
+  border-radius: 3px;
+  background-image: linear-gradient(var(--copper-200), var(--copper-200));
+  background-repeat: no-repeat;
+  background-position: 0 90%;
+  background-size: 0% .58em;
+  transition: background-size .5s var(--ease);
+}
+.produkt-lead.visible b { background-size: 100% .58em; }
+
 .produkt-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -820,17 +843,17 @@ ul { list-style: none; }
 /* ════════════════════════════════════
    LIFESTYLE-GALERIE (Produktfotos mit Hintergrund)
    ════════════════════════════════════ */
-.lifestyle { margin-top: var(--space-16); text-align: center; }
+.lifestyle { margin-top: var(--space-12); text-align: center; }
 .lifestyle .page-head { margin-bottom: var(--space-8); }
 .lifestyle-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-4);
+  grid-auto-rows: clamp(140px, 17vw, 210px);
+  gap: var(--space-3);
 }
 .lifestyle-card {
   position: relative;
   margin: 0;
-  aspect-ratio: 3 / 4;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border);
@@ -844,9 +867,24 @@ ul { list-style: none; }
   object-position: 50% 50%;
   transition: transform var(--dur-slow) var(--ease);
 }
+.lifestyle-card figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-8) var(--space-4) var(--space-3);
+  text-align: left;
+  font: 700 .76rem/1 var(--font-ui);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(14,8,6,.82));
+}
+/* Bento: erstes Bild groß (Messestand), viertes breit (Verpackung) */
+.lifestyle-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.lifestyle-card:nth-child(4) { grid-column: span 2; }
+.lifestyle-card:nth-child(4) img { object-position: 50% 35%; }
 .lifestyle-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), 0 0 30px var(--glow-copper);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg), 0 0 28px var(--glow-copper);
 }
 .lifestyle-card:hover img { transform: scale(1.05); }
 
@@ -1397,6 +1435,53 @@ ul { list-style: none; }
 .orgA__members li::before { content: "·"; position: absolute; left: 2px; color: var(--primary); font-weight: 700; }
 
 /* ════════════════════════════════════
+   KONTAKT-CTA (Startseite)
+   ════════════════════════════════════ */
+.cta-band {
+  background: linear-gradient(135deg, var(--copper-600) 0%, var(--ember) 100%);
+  border-top: 1px solid rgba(224,116,26,.25);
+  position: relative;
+  overflow: hidden;
+}
+.cta-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.18), transparent 60%);
+  pointer-events: none;
+}
+.cta-band__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-16) var(--space-5);
+}
+.cta-band .overline { color: var(--copper-100); }
+.cta-band h2 {
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: var(--space-4);
+}
+.cta-band__sub {
+  color: rgba(255,255,255,.92);
+  font-size: 1.1rem;
+  margin-bottom: var(--space-8);
+}
+.cta-band .btn--primary {
+  background: #fff;
+  color: var(--copper-700);
+  box-shadow: var(--shadow-lg);
+}
+.cta-band .btn--primary:hover {
+  background: var(--ink-50);
+  color: var(--copper-800);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(74,36,6,.28);
+}
+
+/* ════════════════════════════════════
    RESPONSIVE
    ════════════════════════════════════ */
 @media (max-width: 900px) {
@@ -1425,7 +1510,7 @@ ul { list-style: none; }
 
   .produkt-grid { grid-template-columns: 1fr; gap: var(--space-8); }
   .chip-spec__grid { grid-template-columns: 1fr 1fr; }
-  .lifestyle-grid { grid-template-columns: 1fr 1fr; }
+  .lifestyle-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 140px; }
 
   .galerie-grid { grid-template-columns: 1fr 1fr; }
   .socials-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
