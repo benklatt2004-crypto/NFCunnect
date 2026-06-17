@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
   initOrgchart();
   initReveal();
+  initLightbox();
 });
 
 /* ══════════════════════════════
@@ -485,5 +486,64 @@ function initKontakt() {
       submitBtn.textContent = origText;
       renderIcons(); // restore icon in button
     }
+  });
+}
+
+/* ══════════════════════════════
+   Lightbox – Lifestyle-Bilder vergrößern
+   ══════════════════════════════ */
+function initLightbox() {
+  const cards = document.querySelectorAll('.lifestyle-card');
+  if (!cards.length) return;
+
+  const box = document.createElement('div');
+  box.className = 'lightbox';
+  box.id = 'lightbox';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  box.setAttribute('aria-label', 'Bildansicht');
+  box.setAttribute('aria-hidden', 'true');
+  box.innerHTML =
+    '<button class="lightbox__close" type="button" aria-label="Schließen">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+    '</button>' +
+    '<figure class="lightbox__figure">' +
+      '<img class="lightbox__img" src="" alt="" />' +
+      '<figcaption class="lightbox__cap"></figcaption>' +
+    '</figure>';
+  document.body.appendChild(box);
+
+  const imgEl = box.querySelector('.lightbox__img');
+  const capEl = box.querySelector('.lightbox__cap');
+
+  const openBox = (src, alt, caption) => {
+    imgEl.src = src;
+    imgEl.alt = alt || '';
+    capEl.textContent = caption || '';
+    capEl.style.display = caption ? '' : 'none';
+    box.classList.add('open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeBox = () => {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  cards.forEach(card => {
+    const img = card.querySelector('img');
+    if (!img) return;
+    const cap = card.querySelector('figcaption');
+    card.addEventListener('click', () => {
+      openBox(img.currentSrc || img.src, img.alt, cap ? cap.textContent : '');
+    });
+  });
+
+  box.addEventListener('click', (e) => {
+    if (e.target === box || e.target.closest('.lightbox__close')) closeBox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && box.classList.contains('open')) closeBox();
   });
 }
