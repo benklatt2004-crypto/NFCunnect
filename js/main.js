@@ -21,9 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initCountUp();
   initKontakt();
-  initThumbs();
   initHeroTilt();
-  initProduktTilt();
   initShowcaseTilt();
   initHowSteps();
   initTapDemo();
@@ -266,28 +264,6 @@ function initShowcaseTilt() {
 }
 
 /* ══════════════════════════════
-   Produkt – 3D tilt
-   ══════════════════════════════ */
-function initProduktTilt() {
-  const stage = document.getElementById('produkt-tilt');
-  if (!stage) return;
-
-  stage.addEventListener('mousemove', (e) => {
-    const { left, top, width, height } = stage.getBoundingClientRect();
-    const x = ((e.clientX - left) / width  - .5) * 14;
-    const y = ((e.clientY - top)  / height - .5) * -14;
-    stage.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
-    stage.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
-    stage.style.transform = `perspective(600px) rotateY(${x}deg) rotateX(${y}deg)`;
-    stage.style.transition = 'transform .08s linear';
-  });
-  stage.addEventListener('mouseleave', () => {
-    stage.style.transform = '';
-    stage.style.transition = 'transform .55s cubic-bezier(0.22,1,0.36,1)';
-  });
-}
-
-/* ══════════════════════════════
    Wie es funktioniert – Interactive Steps
    ══════════════════════════════ */
 function initHowSteps() {
@@ -340,34 +316,6 @@ function initTapDemo() {
   });
 }
 const delay = ms => new Promise(r => setTimeout(r, ms));
-
-/* ══════════════════════════════
-   Thumbnail-Galerie (Produktseite)
-   ══════════════════════════════ */
-function initThumbs() {
-  const thumbs  = document.querySelectorAll('.thumb');
-  const mainImg = document.getElementById('produkt-main');
-  if (!thumbs.length || !mainImg) return;
-
-  thumbs.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      const newSrc = thumb.dataset.img;
-      if (mainImg.getAttribute('src') === newSrc) return;
-
-      mainImg.style.opacity = '0';
-      const swap = () => {
-        mainImg.src = newSrc;
-        mainImg.style.opacity = '1';
-        mainImg.removeEventListener('transitionend', swap);
-      };
-      mainImg.addEventListener('transitionend', swap, { once: true });
-      setTimeout(() => { if (mainImg.style.opacity === '0') swap(); }, 240);
-
-      thumbs.forEach(t => t.classList.remove('thumb--active'));
-      thumb.classList.add('thumb--active');
-    });
-  });
-}
 
 /* ══════════════════════════════
    Zähler-Animation
@@ -435,23 +383,11 @@ function initGlobe() {
       `<span class="globe-pin__city">${node.dataset.city || ''}</span>` +
       `<span class="globe-pin__msg">${node.dataset.label || 'Profil geteilt'}</span>`;
     hud.appendChild(pin);
-
-    bumpTicker();
   }
 
   function loop() {
     showNext();
     timer = setTimeout(loop, 2700);
-  }
-
-  // Live-Zähler: startet bei einer plausiblen Tageszahl und tickt mit
-  const numEl   = document.getElementById('globe-ticker-num');
-  let shareCount = 1240 + Math.floor(Math.random() * 60);
-  if (numEl) numEl.textContent = shareCount.toLocaleString('de-DE');
-  function bumpTicker() {
-    if (!numEl) return;
-    shareCount += 1 + Math.floor(Math.random() * 4);
-    numEl.textContent = shareCount.toLocaleString('de-DE');
   }
 
   // Nur animieren, wenn der Globus sichtbar ist (spart Akku/CPU)

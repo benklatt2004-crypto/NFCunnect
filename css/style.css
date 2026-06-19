@@ -754,33 +754,6 @@ ul { list-style: none; }
   82%  { opacity: 1; transform: translate(-50%, -140%) scale(1); }
   100% { opacity: 0; transform: translate(-50%, -150%) scale(.96); }
 }
-.globe-ticker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: var(--space-8);
-  font-size: 1rem;
-  color: var(--fg-muted);
-}
-.globe-ticker #globe-ticker-num {
-  font-weight: 700;
-  color: var(--copper-300);
-  font-variant-numeric: tabular-nums;
-}
-.globe-ticker__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 0 rgba(74, 222, 128, .6);
-  animation: tickerPulse 2s ease-out infinite;
-}
-@keyframes tickerPulse {
-  0%   { box-shadow: 0 0 0 0 rgba(74, 222, 128, .6); }
-  70%  { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-}
 /* aktiver Knoten leuchtet stärker, wenn seine Info erscheint */
 .globe-nodes circle.is-active {
   fill: #fff;
@@ -833,72 +806,87 @@ ul { list-style: none; }
 /* ════════════════════════════════════
    PRODUKT
    ════════════════════════════════════ */
-.produkt-grid {
+/* Feature-Bento – 5 Cards, erste Karte als großes Lead-Element */
+.feature-bento {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-16);
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
 }
-.produkt-media {}
-
-.produkt-stage {
+.feature-card {
   position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  /* Creme/Kupfer-Verlauf — die Anhänger-Bilder sind transparente Freisteller */
-  background: radial-gradient(120% 95% at 50% 42%, #FDF4EA 0%, #FAE3C4 100%);
-  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-std) var(--ease),
+              box-shadow var(--dur-std) var(--ease),
+              border-color var(--dur-std) var(--ease);
 }
-/* Hover-Glow folgt dem Cursor — liegt HINTER dem Anhänger (z-index 1 < 2) */
-.produkt-stage::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--glow-copper-lg), transparent 55%);
+.feature-card::before {
+  /* feiner Kupfer-Strich oben, der bei Hover aufleuchtet */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--copper-400), var(--copper-600));
+  opacity: 0;
   transition: opacity var(--dur-std) var(--ease);
 }
-.produkt-stage:hover::after { opacity: 1; }
-#produkt-main {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: 50% 50%;
-  transition: opacity .22s var(--ease);
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--copper-200);
+  box-shadow: var(--shadow-lg), 0 0 28px var(--glow-copper);
 }
-.produkt-stage__glow {
+.feature-card:hover::before { opacity: 1; }
+
+/* Lead-Card: spannt 2 Spalten, dunkles Kupfer-Setting als Eyecatcher */
+.feature-card--lead {
+  grid-column: span 2;
+  justify-content: flex-end;
+  min-height: 260px;
+  color: #fff;
+  background:
+    radial-gradient(130% 120% at 80% 0%, var(--copper-700) 0%, transparent 55%),
+    linear-gradient(155deg, var(--night-800) 0%, var(--ink-900) 100%);
+  border-color: rgba(224,116,26,.28);
+}
+.feature-card--lead h3 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+.feature-card--lead p { color: rgba(255,255,255,.78); font-size: 1rem; max-width: 42ch; }
+.feature-card__glow {
   position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: radial-gradient(ellipse 60% 40% at 50% 75%, var(--glow-copper) 0%, transparent 65%);
+  top: -40%;
+  right: -10%;
+  width: 70%;
+  height: 120%;
+  background: radial-gradient(circle, var(--glow-copper-lg) 0%, transparent 65%);
   pointer-events: none;
 }
-
-.thumbs { display: flex; gap: var(--space-2); margin-top: var(--space-4); flex-wrap: wrap; }
-.thumb {
-  width: 58px;
-  height: 58px;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  padding: 0;
-  border: 2px solid var(--border);
-  background: radial-gradient(120% 95% at 50% 42%, #FDF4EA 0%, #FAE3C4 100%);
-  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), box-shadow var(--dur-fast);
+.feature-card--lead .feature__icon {
+  background: rgba(247,168,80,.14);
+  border-color: rgba(247,168,80,.35);
+  color: var(--copper-300);
 }
-.thumb img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.7); }
-.thumb:hover { transform: translateY(-2px); border-color: var(--ink-300); }
-.thumb--active { border-color: var(--primary); box-shadow: 0 0 0 3px var(--glow-copper); }
+.feature-card__tag {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+  padding: 4px 12px;
+  font-size: .72rem;
+  letter-spacing: .06em;
+  color: var(--copper-300);
+  border: 1px solid rgba(247,168,80,.35);
+  border-radius: var(--radius-pill);
+}
 
-.variant-note { margin-top: var(--space-4); color: var(--fg-muted); font-size: .82rem; }
-
-/* Features */
-.feature-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-5); }
-.feature { display: flex; gap: var(--space-4); align-items: flex-start; }
 .feature__icon {
+  position: relative;
   flex: none;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
   background: var(--copper-50);
@@ -906,9 +894,10 @@ ul { list-style: none; }
   border-radius: var(--radius-md);
   border: 1px solid var(--copper-100);
 }
-.feature__icon svg { width: 20px; height: 20px; stroke-width: 1.5; }
-.feature h3 { font-size: 1rem; margin-bottom: .2rem; }
-.feature p { color: var(--fg-muted); font-size: .92rem; }
+.feature__icon svg { width: 22px; height: 22px; stroke-width: 1.5; }
+.feature-card h3 { font-size: 1.1rem; }
+.feature-card p { color: var(--fg-muted); font-size: .92rem; line-height: 1.55; }
+.feature-card--lead p { color: rgba(255,255,255,.78); }
 
 /* Chip spec */
 .chip-spec {
@@ -1673,7 +1662,8 @@ ul { list-style: none; }
   .how-steps { grid-template-columns: 1fr; }
   .how-connector { display: none; }
 
-  .produkt-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+  .feature-bento { grid-template-columns: 1fr 1fr; }
+  .feature-card--lead { grid-column: span 2; min-height: 200px; }
   .chip-spec__grid { grid-template-columns: 1fr 1fr; }
   .lifestyle-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 140px; }
 
@@ -1685,6 +1675,8 @@ ul { list-style: none; }
   .footer__copy { margin-left: 0; }
 }
 @media (max-width: 560px) {
+  .feature-bento { grid-template-columns: 1fr; }
+  .feature-card--lead { grid-column: span 1; }
   .galerie-grid { grid-template-columns: 1fr; }
   .flip-card { height: 280px; }
   .kontakt-card { padding: var(--space-5); }
