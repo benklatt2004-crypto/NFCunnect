@@ -75,8 +75,11 @@
             <button class="btn btn--primary" data-tab="produkt">
               <i data-lucide="package"></i> Produkt entdecken
             </button>
-            <button class="btn btn--ghost" data-tab="kontakt">
+            <button class="btn btn--ghost" data-tab="kontakt" data-betreff="kontakt">
               <i data-lucide="mail"></i> Kontakt
+            </button>
+            <button class="btn btn--ghost" data-tab="kontakt" data-betreff="bestellung">
+              <i data-lucide="shopping-cart"></i> Bestellung
             </button>
           </div>
         </div>
@@ -673,7 +676,14 @@
             </div>
             <div class="field">
               <label for="k-betreff">Betreff</label>
-              <input type="text" id="k-betreff" name="betreff" placeholder="z.B. Anfrage Bestellung" />
+              <select id="k-betreff" name="betreff">
+                <option value="Bestellung">Bestellung</option>
+                <option value="Kontaktaufnahme">Kontaktaufnahme</option>
+              </select>
+            </div>
+            <div class="field" id="betreff-detail-field" hidden>
+              <label for="k-betreff-detail">Dein Betreff</label>
+              <input type="text" id="k-betreff-detail" name="betreff_detail" placeholder="Worum geht's?" />
             </div>
             <div class="field">
               <label for="k-nachricht">

@@ -57,11 +57,13 @@ function initTabs() {
     const btn = e.target.closest('[data-tab]');
     if (!btn) return;
     e.preventDefault();
-    switchTab(btn.dataset.tab);
+    switchTab(btn.dataset.tab, btn.dataset.betreff);
   });
 }
 
-function switchTab(tabId) {
+function switchTab(tabId, betreff) {
+  if (tabId === 'kontakt') applyBetreff(betreff);
+
   const current = document.querySelector('.page--active');
   if (current) current.classList.remove('page--active');
 
@@ -410,6 +412,22 @@ function initCoop() {
 }
 
 /* ══════════════════════════════
+   Betreff-Dropdown (Bestellung / Kontaktaufnahme)
+   ══════════════════════════════ */
+function applyBetreff(intent) {
+  const select = document.getElementById('k-betreff');
+  if (!select) return;
+  select.value = intent === 'bestellung' ? 'Bestellung' : 'Kontaktaufnahme';
+  toggleBetreffDetail();
+}
+function toggleBetreffDetail() {
+  const select = document.getElementById('k-betreff');
+  const detail = document.getElementById('betreff-detail-field');
+  if (!select || !detail) return;
+  detail.hidden = select.value !== 'Kontaktaufnahme';
+}
+
+/* ══════════════════════════════
    Kontaktformular – Web3Forms
    ══════════════════════════════ */
 function initKontakt() {
@@ -428,6 +446,13 @@ function initKontakt() {
     });
   }
 
+  // Betreff-Dropdown: Detailfeld nur bei "Kontaktaufnahme" zeigen
+  const betreffSelect = document.getElementById('k-betreff');
+  if (betreffSelect) {
+    betreffSelect.addEventListener('change', toggleBetreffDetail);
+    toggleBetreffDetail();
+  }
+
   const submitBtn = form.querySelector('button[type="submit"]');
 
   form.addEventListener('submit', async (e) => {
@@ -436,7 +461,12 @@ function initKontakt() {
 
     const name      = document.getElementById('k-name').value.trim();
     const email     = document.getElementById('k-email').value.trim();
-    const betreff   = document.getElementById('k-betreff').value.trim() || 'Kontaktanfrage NFCunnect';
+    let betreff = betreffSelect ? betreffSelect.value : '';
+    const betreffDetail = document.getElementById('k-betreff-detail');
+    if (betreff === 'Kontaktaufnahme') {
+      betreff = (betreffDetail && betreffDetail.value.trim()) || 'Kontaktaufnahme';
+    }
+    if (!betreff) betreff = 'Kontaktanfrage NFCunnect';
     const nachricht = textarea.value.trim();
 
     if (!name || !email || !nachricht) {
@@ -477,6 +507,7 @@ function initKontakt() {
         status.className   = 'form-status ok';
         form.reset();
         if (counter) counter.textContent = '0 / 500';
+        toggleBetreffDetail();
       } else throw new Error(data.message);
     } catch {
       status.textContent = `Senden hat nicht geklappt. Schreib uns direkt: ${MAIL}`;
