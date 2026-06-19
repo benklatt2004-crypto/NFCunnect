@@ -191,6 +191,20 @@ ul { list-style: none; }
   border-color: var(--ink-300);
   transform: translateY(-2px);
 }
+/* Bestellung: warmer Kupfer-Akzent zwischen Primär und Ghost */
+.btn--order {
+  background: var(--copper-50);
+  color: var(--copper-700);
+  border-color: var(--copper-200);
+}
+.btn--order:hover {
+  background: var(--copper-100);
+  border-color: var(--copper-300);
+  color: var(--copper-800);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px var(--glow-copper);
+}
+.btn--order:active { transform: scale(.98); }
 .btn--tap {
   background: var(--night-800);
   color: var(--copper-300);
