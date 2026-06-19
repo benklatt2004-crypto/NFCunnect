@@ -204,7 +204,7 @@
           </p>
         </div>
         <div class="globe-wrap">
-          <div class="globe" aria-hidden="true">
+          <div class="globe" id="globe" aria-hidden="true">
             <svg class="globe-svg" viewBox="0 0 400 400" role="img">
               <defs>
                 <radialGradient id="sphere" cx="38%" cy="34%" r="75%">
@@ -244,14 +244,23 @@
                 <path d="M110,290 Q120,160 250,100"  style="--len:360;--d:2.4s" />
               </g>
               <g class="globe-nodes">
-                <circle cx="120" cy="130" r="5" /><circle cx="290" cy="150" r="5" />
-                <circle cx="95"  cy="230" r="5" /><circle cx="300" cy="250" r="5" />
-                <circle cx="150" cy="95"  r="5" /><circle cx="280" cy="300" r="5" />
-                <circle cx="250" cy="100" r="5" />
+                <circle cx="150" cy="95"  r="5" data-city="Hamburg"   data-label="Messe geteilt" />
+                <circle cx="250" cy="100" r="5" data-city="München"   data-label="Pitch verschickt" />
+                <circle cx="120" cy="130" r="5" data-city="London"    data-label="vCard gespeichert" />
+                <circle cx="290" cy="150" r="5" data-city="Dubai"     data-label="LinkedIn verknüpft" />
+                <circle cx="95"  cy="230" r="5" data-city="New York"  data-label="Profil geöffnet" />
+                <circle cx="300" cy="250" r="5" data-city="Tokio"     data-label="Kontakt gespeichert" />
+                <circle cx="280" cy="300" r="5" data-city="Sydney"    data-label="Termin gebucht" />
               </g>
             </svg>
+            <!-- Live-Infos, die aus dem Globus „rauskommen“ -->
+            <div class="globe-hud" id="globe-hud"></div>
           </div>
         </div>
+        <p class="globe-ticker" id="globe-ticker" aria-live="polite">
+          <span class="globe-ticker__dot"></span>
+          <span id="globe-ticker-num">0</span>&nbsp;Profile heute geteilt
+        </p>
       </div>
 
     </section>

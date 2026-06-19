@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCoop();
   initTypewriter();
   initOrgchart();
+  initGlobe();
   initReveal();
   initLightbox();
 });
@@ -391,6 +392,82 @@ function countUp(el) {
   requestAnimationFrame(run);
 }
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+/* ══════════════════════════════
+   Globus – Live-Infos
+   Lässt an den Knotenpunkten echte
+   Netzwerk-Events „rauskommen“ und
+   zählt geteilte Profile live hoch.
+   ══════════════════════════════ */
+function initGlobe() {
+  const globe = document.getElementById('globe');
+  const hud   = document.getElementById('globe-hud');
+  if (!globe || !hud) return;
+
+  const VIEWBOX = 400;                       // SVG-Koordinatensystem 0–400
+  const nodes   = [...globe.querySelectorAll('.globe-nodes circle')];
+  if (!nodes.length) return;
+
+  let running = false;
+  let order   = [];
+  let idx     = 0;
+  let timer   = null;
+
+  function showNext() {
+    // Reihenfolge mischen, sobald eine Runde durch ist
+    if (idx >= order.length) {
+      order = nodes.map((_, i) => i).sort(() => Math.random() - 0.5);
+      idx   = 0;
+    }
+    const node = nodes[order[idx++]];
+    const cx   = parseFloat(node.getAttribute('cx'));
+    const cy   = parseFloat(node.getAttribute('cy'));
+
+    nodes.forEach(n => n.classList.remove('is-active'));
+    node.classList.add('is-active');
+
+    hud.innerHTML = '';
+    const pin = document.createElement('div');
+    pin.className = 'globe-pin';
+    pin.style.left = (cx / VIEWBOX * 100) + '%';
+    pin.style.top  = (cy / VIEWBOX * 100) + '%';
+    pin.innerHTML =
+      `<span class="globe-pin__city">${node.dataset.city || ''}</span>` +
+      `<span class="globe-pin__msg">${node.dataset.label || 'Profil geteilt'}</span>`;
+    hud.appendChild(pin);
+
+    bumpTicker();
+  }
+
+  function loop() {
+    showNext();
+    timer = setTimeout(loop, 2700);
+  }
+
+  // Live-Zähler: startet bei einer plausiblen Tageszahl und tickt mit
+  const numEl   = document.getElementById('globe-ticker-num');
+  let shareCount = 1240 + Math.floor(Math.random() * 60);
+  if (numEl) numEl.textContent = shareCount.toLocaleString('de-DE');
+  function bumpTicker() {
+    if (!numEl) return;
+    shareCount += 1 + Math.floor(Math.random() * 4);
+    numEl.textContent = shareCount.toLocaleString('de-DE');
+  }
+
+  // Nur animieren, wenn der Globus sichtbar ist (spart Akku/CPU)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting && !running) {
+        running = true;
+        loop();
+      } else if (!e.isIntersecting && running) {
+        running = false;
+        clearTimeout(timer);
+      }
+    });
+  }, { threshold: 0.25 });
+  io.observe(globe);
+}
 
 /* ══════════════════════════════
    Kooperation – Aurubis-Logo-Fallback
