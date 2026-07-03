@@ -21,13 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initBurger();
   initCountUp();
   initKontakt();
-  initThumbs();
   initHeroTilt();
-  initProduktTilt();
+  initShowcaseTilt();
   initHowSteps();
   initTapDemo();
+  initCoop();
   initTypewriter();
+  initOrgchart();
+  initGlobe();
   initReveal();
+  initLightbox();
 });
 
 /* ══════════════════════════════
@@ -53,11 +56,13 @@ function initTabs() {
     const btn = e.target.closest('[data-tab]');
     if (!btn) return;
     e.preventDefault();
-    switchTab(btn.dataset.tab);
+    switchTab(btn.dataset.tab, btn.dataset.betreff);
   });
 }
 
-function switchTab(tabId) {
+function switchTab(tabId, betreff) {
+  if (tabId === 'kontakt') applyBetreff(betreff);
+
   const current = document.querySelector('.page--active');
   if (current) current.classList.remove('page--active');
 
@@ -130,7 +135,7 @@ function triggerReveal() {
 /* ══════════════════════════════
    Typewriter – Hero
    ══════════════════════════════ */
-const typeWords = ['Networking.', 'dein Instagram.', 'WLAN teilen.', 'Google Bewertungen.', 'deine Visitenkarte.', 'Events & Messen.'];
+const typeWords = ['Networking.', 'dein Instagram.', 'deinen Linktree.', 'Google Bewertungen.', 'deine Visitenkarte.', 'Events & Messen.'];
 let twIdx = 0, twChar = 0, twDeleting = false;
 
 function initTypewriter() {
@@ -148,6 +153,67 @@ function initTypewriter() {
       if (twChar === 0) { twDeleting = false; twIdx = (twIdx + 1) % typeWords.length; }
     }
     setTimeout(tick, twDeleting ? 48 : 72);
+  }
+}
+
+/* ══════════════════════════════
+   Organigramm – interaktiv
+   ══════════════════════════════ */
+const ORG_VORSTAND = ['Ben Klatt', 'Lara Untersteiner'];
+const ORG_DEPTS = [
+  { name: 'Produktion', icon: 'package',   members: ['Paulina Großschädel', 'Arda Erdem', 'Zoe Kunkel', 'Ayca Kilictas'] },
+  { name: 'Personal',   icon: 'users',     members: ['Sadja Steinhauer', 'Dilan Incesu'] },
+  { name: 'Marketing',  icon: 'megaphone', members: ['Fatih Özdemir', 'Ben Klatt', 'Jule Härtel', 'Annalena Poppe'] },
+  { name: 'Finanzen',   icon: 'wallet',    members: ['Lara Untersteiner', 'Leonard Brüggen', 'Vinzenz Schelmann', 'Nouree Bien'] },
+  { name: 'Vertrieb',   icon: 'handshake', members: ['Finn Amelunxen', 'Jonas Wörz'] },
+];
+
+function initOrgchart() {
+  buildOrgRadial(document.getElementById('orgA'));
+  renderIcons();
+}
+
+/* Halbkreis-Organigramm: Vorstand oben, Abteilungen auf einem Bogen, Klick zeigt Mitglieder */
+function buildOrgRadial(root) {
+  if (!root) return;
+
+  const center = document.createElement('div');
+  center.className = 'orgA__center';
+  center.innerHTML =
+    `<span class="orgA__center-label">Vorstand</span>` +
+    `<span class="orgA__center-names">${ORG_VORSTAND.join(' · ')}</span>`;
+
+  const arc = document.createElement('div');
+  arc.className = 'orgA__arc';
+  ORG_DEPTS.forEach((dept, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'orgA__dept';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML = `<i data-lucide="${dept.icon}"></i><span>${dept.name}</span>`;
+    btn.addEventListener('click', () => selectDept(i));
+    arc.appendChild(btn);
+  });
+
+  const panel = document.createElement('div');
+  panel.className = 'orgA__panel';
+  panel.setAttribute('aria-live', 'polite');
+  panel.innerHTML = `<p class="orgA__hint">Wähle eine Abteilung aus.</p>`;
+
+  root.append(center, arc, panel);
+
+  function selectDept(idx) {
+    const depts = [...arc.querySelectorAll('.orgA__dept')];
+    depts.forEach((b, i) => {
+      const active = i === idx;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', String(active));
+    });
+    const dept = ORG_DEPTS[idx];
+    panel.innerHTML =
+      `<p class="orgA__panel-title"><i data-lucide="${dept.icon}"></i> ${dept.name}</p>` +
+      `<ul class="orgA__members">${dept.members.map(m => `<li>${m}</li>`).join('')}</ul>`;
+    renderIcons();
   }
 }
 
@@ -172,22 +238,28 @@ function initHeroTilt() {
 }
 
 /* ══════════════════════════════
-   Produkt – 3D tilt
+   Showcase – 3D tilt pro Karte (Motion)
    ══════════════════════════════ */
-function initProduktTilt() {
-  const stage = document.getElementById('produkt-tilt');
-  if (!stage) return;
+function initShowcaseTilt() {
+  const cards = document.querySelectorAll('[data-tilt]');
+  if (!cards.length) return;
+  if (window.matchMedia('(hover: none)').matches) return; // Touch: kein Tilt
 
-  stage.addEventListener('mousemove', (e) => {
-    const { left, top, width, height } = stage.getBoundingClientRect();
-    const x = ((e.clientX - left) / width  - .5) * 14;
-    const y = ((e.clientY - top)  / height - .5) * -14;
-    stage.style.transform = `perspective(600px) rotateY(${x}deg) rotateX(${y}deg)`;
-    stage.style.transition = 'transform .08s linear';
-  });
-  stage.addEventListener('mouseleave', () => {
-    stage.style.transform = '';
-    stage.style.transition = 'transform .55s cubic-bezier(0.22,1,0.36,1)';
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const { left, top, width, height } = card.getBoundingClientRect();
+      const x = ((e.clientX - left) / width  - .5) * 12;
+      const y = ((e.clientY - top)  / height - .5) * -12;
+      card.style.setProperty('--mx', `${((e.clientX - left) / width) * 100}%`);
+      card.style.setProperty('--my', `${((e.clientY - top) / height) * 100}%`);
+      // Hover richtet die Karte gerade aus und neigt sie zum Cursor
+      card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-8px) scale(1.03)`;
+      card.style.transition = 'transform .08s linear';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';   // zurück zur spielerischen Ruhe-Neigung (CSS)
+      card.style.transition = 'transform .55s cubic-bezier(0.22,1,0.36,1)';
+    });
   });
 }
 
@@ -246,34 +318,6 @@ function initTapDemo() {
 const delay = ms => new Promise(r => setTimeout(r, ms));
 
 /* ══════════════════════════════
-   Thumbnail-Galerie (Produktseite)
-   ══════════════════════════════ */
-function initThumbs() {
-  const thumbs  = document.querySelectorAll('.thumb');
-  const mainImg = document.getElementById('produkt-main');
-  if (!thumbs.length || !mainImg) return;
-
-  thumbs.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      const newSrc = thumb.dataset.img;
-      if (mainImg.getAttribute('src') === newSrc) return;
-
-      mainImg.style.opacity = '0';
-      const swap = () => {
-        mainImg.src = newSrc;
-        mainImg.style.opacity = '1';
-        mainImg.removeEventListener('transitionend', swap);
-      };
-      mainImg.addEventListener('transitionend', swap, { once: true });
-      setTimeout(() => { if (mainImg.style.opacity === '0') swap(); }, 240);
-
-      thumbs.forEach(t => t.classList.remove('thumb--active'));
-      thumb.classList.add('thumb--active');
-    });
-  });
-}
-
-/* ══════════════════════════════
    Zähler-Animation
    ══════════════════════════════ */
 let countersStarted = false;
@@ -298,6 +342,105 @@ function countUp(el) {
 function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
 /* ══════════════════════════════
+   Globus – Live-Infos
+   Lässt an den Knotenpunkten echte
+   Netzwerk-Events „rauskommen“ und
+   zählt geteilte Profile live hoch.
+   ══════════════════════════════ */
+function initGlobe() {
+  const globe = document.getElementById('globe');
+  const hud   = document.getElementById('globe-hud');
+  if (!globe || !hud) return;
+
+  const VIEWBOX = 400;                       // SVG-Koordinatensystem 0–400
+  const nodes   = [...globe.querySelectorAll('.globe-nodes circle')];
+  if (!nodes.length) return;
+
+  let running = false;
+  let order   = [];
+  let idx     = 0;
+  let timer   = null;
+
+  function showNext() {
+    // Reihenfolge mischen, sobald eine Runde durch ist
+    if (idx >= order.length) {
+      order = nodes.map((_, i) => i).sort(() => Math.random() - 0.5);
+      idx   = 0;
+    }
+    const node = nodes[order[idx++]];
+    const cx   = parseFloat(node.getAttribute('cx'));
+    const cy   = parseFloat(node.getAttribute('cy'));
+
+    nodes.forEach(n => n.classList.remove('is-active'));
+    node.classList.add('is-active');
+
+    hud.innerHTML = '';
+    const pin = document.createElement('div');
+    pin.className = 'globe-pin';
+    pin.style.left = (cx / VIEWBOX * 100) + '%';
+    pin.style.top  = (cy / VIEWBOX * 100) + '%';
+    pin.innerHTML =
+      `<span class="globe-pin__city">${node.dataset.city || ''}</span>` +
+      `<span class="globe-pin__msg">${node.dataset.label || 'Profil geteilt'}</span>`;
+    hud.appendChild(pin);
+  }
+
+  function loop() {
+    showNext();
+    timer = setTimeout(loop, 2700);
+  }
+
+  // Nur animieren, wenn der Globus sichtbar ist (spart Akku/CPU)
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting && !running) {
+        running = true;
+        loop();
+      } else if (!e.isIntersecting && running) {
+        running = false;
+        clearTimeout(timer);
+      }
+    });
+  }, { threshold: 0.25 });
+  io.observe(globe);
+}
+
+/* ══════════════════════════════
+   Kooperation – Aurubis-Logo-Fallback
+   Zeigt einen sauberen Schriftzug, falls
+   assets/aurubis-logo.png (noch) fehlt.
+   ══════════════════════════════ */
+function initCoop() {
+  const logo = document.getElementById('coop-aurubis');
+  if (!logo) return;
+  const showFallback = () => {
+    const span = document.createElement('span');
+    span.className = 'coop__wordmark';
+    span.textContent = 'Aurubis';
+    logo.replaceWith(span);
+  };
+  logo.addEventListener('error', showFallback);
+  // Falls das Bild bereits als "broken" geladen wurde
+  if (logo.complete && logo.naturalWidth === 0) showFallback();
+}
+
+/* ══════════════════════════════
+   Betreff-Dropdown (Bestellung / Kontaktaufnahme)
+   ══════════════════════════════ */
+function applyBetreff(intent) {
+  const select = document.getElementById('k-betreff');
+  if (!select) return;
+  select.value = intent === 'bestellung' ? 'Bestellung' : 'Kontaktaufnahme';
+  toggleBetreffDetail();
+}
+function toggleBetreffDetail() {
+  const select = document.getElementById('k-betreff');
+  const detail = document.getElementById('betreff-detail-field');
+  if (!select || !detail) return;
+  detail.hidden = select.value !== 'Kontaktaufnahme';
+}
+
+/* ══════════════════════════════
    Kontaktformular – Web3Forms
    ══════════════════════════════ */
 function initKontakt() {
@@ -316,6 +459,13 @@ function initKontakt() {
     });
   }
 
+  // Betreff-Dropdown: Detailfeld nur bei "Kontaktaufnahme" zeigen
+  const betreffSelect = document.getElementById('k-betreff');
+  if (betreffSelect) {
+    betreffSelect.addEventListener('change', toggleBetreffDetail);
+    toggleBetreffDetail();
+  }
+
   const submitBtn = form.querySelector('button[type="submit"]');
 
   form.addEventListener('submit', async (e) => {
@@ -324,7 +474,12 @@ function initKontakt() {
 
     const name      = document.getElementById('k-name').value.trim();
     const email     = document.getElementById('k-email').value.trim();
-    const betreff   = document.getElementById('k-betreff').value.trim() || 'Kontaktanfrage NFCunnect';
+    let betreff = betreffSelect ? betreffSelect.value : '';
+    const betreffDetail = document.getElementById('k-betreff-detail');
+    if (betreff === 'Kontaktaufnahme') {
+      betreff = (betreffDetail && betreffDetail.value.trim()) || 'Kontaktaufnahme';
+    }
+    if (!betreff) betreff = 'Kontaktanfrage NFCunnect';
     const nachricht = textarea.value.trim();
 
     if (!name || !email || !nachricht) {
@@ -365,6 +520,7 @@ function initKontakt() {
         status.className   = 'form-status ok';
         form.reset();
         if (counter) counter.textContent = '0 / 500';
+        toggleBetreffDetail();
       } else throw new Error(data.message);
     } catch {
       status.textContent = `Senden hat nicht geklappt. Schreib uns direkt: ${MAIL}`;
@@ -374,5 +530,64 @@ function initKontakt() {
       submitBtn.textContent = origText;
       renderIcons(); // restore icon in button
     }
+  });
+}
+
+/* ══════════════════════════════
+   Lightbox – Lifestyle-Bilder vergrößern
+   ══════════════════════════════ */
+function initLightbox() {
+  const cards = document.querySelectorAll('.lifestyle-card');
+  if (!cards.length) return;
+
+  const box = document.createElement('div');
+  box.className = 'lightbox';
+  box.id = 'lightbox';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  box.setAttribute('aria-label', 'Bildansicht');
+  box.setAttribute('aria-hidden', 'true');
+  box.innerHTML =
+    '<button class="lightbox__close" type="button" aria-label="Schließen">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+    '</button>' +
+    '<figure class="lightbox__figure">' +
+      '<img class="lightbox__img" src="" alt="" />' +
+      '<figcaption class="lightbox__cap"></figcaption>' +
+    '</figure>';
+  document.body.appendChild(box);
+
+  const imgEl = box.querySelector('.lightbox__img');
+  const capEl = box.querySelector('.lightbox__cap');
+
+  const openBox = (src, alt, caption) => {
+    imgEl.src = src;
+    imgEl.alt = alt || '';
+    capEl.textContent = caption || '';
+    capEl.style.display = caption ? '' : 'none';
+    box.classList.add('open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeBox = () => {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  cards.forEach(card => {
+    const img = card.querySelector('img');
+    if (!img) return;
+    const cap = card.querySelector('figcaption');
+    card.addEventListener('click', () => {
+      openBox(img.currentSrc || img.src, img.alt, cap ? cap.textContent : '');
+    });
+  });
+
+  box.addEventListener('click', (e) => {
+    if (e.target === box || e.target.closest('.lightbox__close')) closeBox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && box.classList.contains('open')) closeBox();
   });
 }
