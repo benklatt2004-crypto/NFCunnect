@@ -1757,3 +1757,475 @@ ul { list-style: none; }
   color: var(--ink-700);
 }
 .legal-updated { color: var(--fg-muted); font-size: .82rem; margin-top: var(--space-10); }
+
+/* ════════════════════════════════════════════════════════════
+   MODERN LAYER — visuelles Redesign
+   Überschreibt gezielt Basis-Regeln weiter oben; Inhalte und
+   HTML-Struktur bleiben unverändert.
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Global: Feinschliff ── */
+::selection { background: var(--copper-500); color: #fff; }
+
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--ink-50); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--copper-400), var(--copper-600));
+  border-radius: 99px;
+  border: 3px solid var(--ink-50);
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Film-Grain über allem — gibt Flächen und Verläufen Textur */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Kupfer-Verlauf auf Hervorhebungen (Cunnect., cunnecten. …) */
+@supports (-webkit-background-clip: text) {
+  em {
+    background: linear-gradient(105deg, var(--coral) 0%, var(--copper-500) 45%, var(--ember) 100%);
+    background-size: 180% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: emShift 6s ease-in-out infinite alternate;
+  }
+}
+@keyframes emShift {
+  from { background-position: 0% 0; }
+  to   { background-position: 100% 0; }
+}
+
+.display { font-size: clamp(3.4rem, 8.5vw, 6.2rem); }
+
+/* Reveals: mit Blur-Schärfung — wirkt deutlich hochwertiger */
+.reveal {
+  filter: blur(10px);
+  transform: translateY(28px) scale(.985);
+  transition:
+    opacity .7s var(--ease),
+    transform .7s var(--ease),
+    filter .7s var(--ease);
+}
+.reveal.visible { filter: blur(0); transform: none; }
+
+/* Buttons: Pill-Form + Glanz-Sweep */
+.btn { border-radius: var(--radius-pill); }
+.btn--primary { position: relative; overflow: hidden; }
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -70%;
+  width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent);
+  transform: skewX(-20deg);
+  transition: left .55s var(--ease);
+  pointer-events: none;
+}
+.btn--primary:hover::before { left: 135%; }
+.btn--tap { border-radius: var(--radius-pill); }
+
+/* Section-Überschriften: Gradient-Balken mit Glow */
+.page-head h2::after {
+  width: 64px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--copper-400), var(--ember));
+  box-shadow: 0 2px 12px var(--glow-copper-lg);
+}
+
+/* ── Header: schwebende Glas-Pill ── */
+.header {
+  background: transparent;
+  border-bottom: none;
+  height: auto;
+  padding: 10px var(--space-4) 0;
+}
+.header.scrolled { box-shadow: none; }
+.header__inner {
+  max-width: 1000px;
+  height: 54px;
+  padding: 0 10px 0 18px;
+  border-radius: var(--radius-pill);
+  background: rgba(250,246,242,.78);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid rgba(226,213,200,.9);
+  box-shadow: 0 6px 24px rgba(74,36,6,.08);
+  transition: box-shadow var(--dur-std), background var(--dur-std);
+}
+.header.scrolled .header__inner {
+  box-shadow: 0 12px 40px rgba(74,36,6,.16);
+  background: rgba(250,246,242,.92);
+}
+.header__logo { height: 30px; }
+.tab { border-radius: var(--radius-pill); }
+.tab--active {
+  background: linear-gradient(120deg, var(--copper-500), var(--copper-600));
+}
+.mobile-nav {
+  margin: 10px 2px 0;
+  border-radius: 22px;
+  border: 1px solid var(--ink-100);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* ── Hero: immersives Dark-Panel, volle Breite ── */
+.hero {
+  max-width: none;
+  padding-inline: max(var(--space-5), calc((100vw - var(--max)) / 2));
+  background:
+    radial-gradient(ellipse 90% 70% at 75% 20%, rgba(224,116,26,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 12% 85%, rgba(225,90,51,.14) 0%, transparent 60%),
+    linear-gradient(165deg, #140B07 0%, var(--night-800) 55%, #23120B 100%);
+  border-radius: 0 0 44px 44px;
+  box-shadow: 0 30px 60px -30px rgba(20,11,7,.5);
+}
+/* feines Punktraster, nach unten ausgeblendet */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.09) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+  pointer-events: none;
+}
+/* Scroll-Hinweis: Maus-Pill mit wanderndem Punkt */
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 42px;
+  border: 2px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--copper-300) 2.5px, transparent 3.5px) no-repeat center 8px;
+  animation: scrollCue 2s var(--ease) infinite;
+  pointer-events: none;
+}
+@keyframes scrollCue {
+  0%, 15%  { background-position: center 8px; opacity: 1; }
+  70%      { background-position: center 24px; opacity: .9; }
+  100%     { background-position: center 24px; opacity: 0; }
+}
+/* Nacht-Panel wird zur Aurora-Bühne über die volle Fläche */
+.hero__night {
+  top: 0; right: 0;
+  width: 100%; height: 100%;
+  border-radius: 0;
+  background: transparent;
+}
+.hero__night::before,
+.hero__night::after {
+  content: "";
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .5;
+  pointer-events: none;
+}
+.hero__night::before {
+  top: -18%; right: -8%;
+  background: radial-gradient(circle, rgba(224,116,26,.55), transparent 65%);
+  animation: auroraA 11s ease-in-out infinite alternate;
+}
+.hero__night::after {
+  bottom: -22%; left: 4%;
+  width: 42%;
+  background: radial-gradient(circle, rgba(225,90,51,.4), transparent 65%);
+  animation: auroraB 14s ease-in-out infinite alternate;
+}
+@keyframes auroraA {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(-9%,10%) scale(1.18); }
+}
+@keyframes auroraB {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(12%,-9%) scale(1.12); }
+}
+.hero__mark { opacity: .07; }
+
+/* Hero-Typo auf Dunkel */
+.hero h1 { color: #fff; }
+.hero .overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 15px;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+  color: var(--copper-200);
+  font-size: .66rem;
+  letter-spacing: .16em;
+  margin-bottom: var(--space-5);
+}
+.hero .overline::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--copper-400);
+  box-shadow: 0 0 0 0 rgba(240,146,107,.7);
+  animation: heroDot 2.2s var(--ease) infinite;
+}
+@keyframes heroDot {
+  0%   { box-shadow: 0 0 0 0 rgba(240,146,107,.7); }
+  70%  { box-shadow: 0 0 0 7px rgba(240,146,107,0); }
+  100% { box-shadow: 0 0 0 0 rgba(240,146,107,0); }
+}
+.hero__sub { color: rgba(255,255,255,.76); }
+.hero__typewriter { color: rgba(255,255,255,.55); }
+.hero__typed { color: var(--copper-300); border-right-color: var(--copper-300); }
+.hero .btn--ghost {
+  color: #fff;
+  border-color: rgba(255,255,255,.25);
+}
+.hero .btn--ghost:hover {
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.45);
+}
+.hero .btn--order {
+  background: rgba(247,168,80,.12);
+  color: var(--copper-200);
+  border-color: rgba(247,168,80,.4);
+}
+.hero .btn--order:hover {
+  background: rgba(247,168,80,.2);
+  color: var(--copper-100);
+  border-color: var(--copper-300);
+}
+.product-tilt img { box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 70px var(--glow-copper-lg); }
+
+/* ── Problem: weiche Karten mit Gradient-Icons ── */
+.problem-section {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(224,116,26,.07), transparent 60%),
+    var(--ink-100);
+}
+.problem-card {
+  border-radius: 24px;
+  border-width: 1px;
+  padding: var(--space-8) var(--space-6);
+}
+.problem-card--new {
+  border-color: var(--copper-200);
+  background: linear-gradient(170deg, #fff 0%, var(--copper-50) 120%);
+  box-shadow: 0 16px 44px -18px var(--glow-copper-lg);
+}
+.problem-card svg {
+  width: 44px; height: 44px;
+  padding: 10px;
+  border-radius: 14px;
+}
+.problem-card--old svg { background: var(--ink-100); color: var(--ink-500); }
+.problem-card--new svg {
+  background: linear-gradient(135deg, var(--copper-500), var(--ember));
+  color: #fff;
+  box-shadow: 0 8px 20px var(--glow-copper-lg);
+}
+.problem-divider svg {
+  width: 40px; height: 40px;
+  padding: 9px;
+  border-radius: 50%;
+  background: var(--night-800);
+  color: var(--copper-300);
+  box-shadow: 0 0 0 6px rgba(224,116,26,.12), 0 8px 20px var(--glow-copper);
+}
+
+/* ── How-Steps: Ghost-Ziffern + Gradient-Icon-Chips ── */
+.how-step {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border-width: 1px;
+  padding: var(--space-6) var(--space-5);
+}
+.how-step__num {
+  position: absolute;
+  top: -6px; right: 10px;
+  font-size: 4.4rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(224,116,26,.22);
+  pointer-events: none;
+  transition: -webkit-text-stroke-color var(--dur-std);
+}
+.how-step:hover .how-step__num,
+.how-step.active .how-step__num { -webkit-text-stroke-color: rgba(224,116,26,.5); }
+.how-step__icon {
+  width: 58px; height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--copper-50), #fff);
+  border: 1px solid var(--copper-100);
+  box-shadow: 0 6px 16px -6px var(--glow-copper);
+  transition: transform var(--dur-std) var(--ease), box-shadow var(--dur-std);
+}
+.how-step:hover .how-step__icon,
+.how-step.active .how-step__icon {
+  transform: translateY(-3px) scale(1.06) rotate(-3deg);
+  box-shadow: 0 12px 26px -8px var(--glow-copper-lg);
+}
+
+/* ── CTA-Band: rotierender Licht-Kegel ── */
+.cta-band::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(from 0deg, transparent 0 70%, rgba(255,255,255,.16) 82%, transparent 94%);
+  animation: ctaSweep 9s linear infinite;
+  pointer-events: none;
+}
+@keyframes ctaSweep { to { transform: rotate(1turn); } }
+
+/* ── Globus-Sektion: Nachthimmel ── */
+.globe-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(224,116,26,.16), transparent 60%),
+    linear-gradient(180deg, #120A06 0%, var(--night-800) 100%);
+  border-top: 1px solid rgba(224,116,26,.18);
+}
+/* Sternenfeld */
+.globe-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255,255,255,.5) .8px, transparent 1.4px),
+    radial-gradient(rgba(255,255,255,.28) .6px, transparent 1.2px);
+  background-size: 170px 170px, 90px 90px;
+  background-position: 0 0, 40px 60px;
+  opacity: .5;
+  pointer-events: none;
+}
+.globe-section__head { position: relative; }
+.globe-section__head h2 { color: #fff; }
+.globe-section__sub { color: rgba(255,255,255,.62); }
+
+/* ── Stats: Gradient-Zahlen + Akzentlinie ── */
+.stat {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background: linear-gradient(165deg, var(--night-800), #23120B);
+}
+.stat::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--copper-400), var(--ember));
+  opacity: .8;
+}
+@supports (-webkit-background-clip: text) {
+  .stat__num, .stat__suffix {
+    background: linear-gradient(120deg, var(--copper-300), var(--coral));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ── Flip-Cards: Aura-Front + Hairline ── */
+.flip-card__front::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--copper-400), var(--ember));
+  opacity: 0;
+  transition: opacity var(--dur-std);
+  z-index: 1;
+}
+.flip-card:hover .flip-card__front::before { opacity: 1; }
+.flip-card__front, .flip-card__back { border-radius: 24px; }
+.flip-card__art {
+  background:
+    radial-gradient(circle at 50% 42%, var(--copper-50) 0%, transparent 55%),
+    radial-gradient(rgba(224,116,26,.14) 1px, transparent 1.5px) 0 0 / 22px 22px,
+    var(--surface);
+}
+.art-icon { filter: drop-shadow(0 10px 18px var(--glow-copper-lg)); }
+
+/* ── Social-Cards: Icon-Schwebe ── */
+.social-card { border-radius: 24px; border-width: 1px; }
+.social-card__icon { animation: iconFloat 4.5s ease-in-out infinite; }
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.social-card:hover .social-card__icon { animation-play-state: paused; }
+
+/* ── Kontakt: weichere Karte & Felder ── */
+.kontakt-card {
+  border-radius: 26px;
+  border: 1px solid var(--copper-100);
+  box-shadow: 0 24px 60px -24px rgba(74,36,6,.28), 0 0 0 6px rgba(224,116,26,.05);
+}
+.field input, .field textarea, .field select {
+  border-radius: 14px;
+  background: var(--ink-50);
+}
+.field input:focus, .field textarea:focus, .field select:focus { background: #fff; }
+
+/* ── Footer: Gradient-Hairline ── */
+.footer { position: relative; border-top: none; }
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--copper-500), transparent);
+}
+
+/* ── Team & Kooperation: mehr Tiefe ── */
+.ueber-team { border-radius: 26px; }
+.coop { border-radius: 26px; }
+
+/* ── Produkt-Lead-Card: Foto-Bühne mit lesbarem Text ── */
+.feature-card--lead {
+  background:
+    linear-gradient(95deg, rgba(18,10,6,.96) 0%, rgba(18,10,6,.82) 42%, rgba(18,10,6,.25) 78%, rgba(18,10,6,.1) 100%),
+    url("../assets/pouch-tag.jpg") 50% 24% / cover no-repeat;
+}
+.feature-card--lead h3 { color: #fff; }
+.feature-card--lead .feature-card__glow { opacity: .55; }
+
+/* ── Responsive für den Modern-Layer ── */
+@media (max-width: 900px) {
+  .hero {
+    border-radius: 0 0 32px 32px;
+    background:
+      radial-gradient(ellipse 120% 55% at 50% 0%, rgba(224,116,26,.24) 0%, transparent 60%),
+      linear-gradient(170deg, #140B07 0%, var(--night-800) 70%, #23120B 100%);
+  }
+  .hero::after { display: none; }
+  .header { padding: 8px var(--space-3) 0; }
+  .header__inner { height: 50px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { filter: none !important; }
+  .hero::after { display: none; }
+}
