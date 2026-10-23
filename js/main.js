@@ -431,13 +431,22 @@ function applyBetreff(intent) {
   const select = document.getElementById('k-betreff');
   if (!select) return;
   select.value = intent === 'bestellung' ? 'Bestellung' : 'Kontaktaufnahme';
-  toggleBetreffDetail();
+  toggleKontaktFelder();
 }
-function toggleBetreffDetail() {
+/* Blendet je nach Betreff das Detail- bzw. das Sterne-Feld ein */
+function toggleKontaktFelder() {
   const select = document.getElementById('k-betreff');
+  if (!select) return;
+  const istFeedback = select.value === 'Feedback';
+
   const detail = document.getElementById('betreff-detail-field');
-  if (!select || !detail) return;
-  detail.hidden = select.value !== 'Kontaktaufnahme';
+  if (detail) detail.hidden = select.value !== 'Kontaktaufnahme';
+
+  const feedback = document.getElementById('feedback-field');
+  if (feedback) feedback.hidden = !istFeedback;
+
+  const label = document.getElementById('nachricht-label');
+  if (label) label.textContent = istFeedback ? 'Dein Feedback' : 'Nachricht';
 }
 
 /* ══════════════════════════════
@@ -462,8 +471,8 @@ function initKontakt() {
   // Betreff-Dropdown: Detailfeld nur bei "Kontaktaufnahme" zeigen
   const betreffSelect = document.getElementById('k-betreff');
   if (betreffSelect) {
-    betreffSelect.addEventListener('change', toggleBetreffDetail);
-    toggleBetreffDetail();
+    betreffSelect.addEventListener('change', toggleKontaktFelder);
+    toggleKontaktFelder();
   }
 
   const submitBtn = form.querySelector('button[type="submit"]');
@@ -475,9 +484,17 @@ function initKontakt() {
     const name      = document.getElementById('k-name').value.trim();
     const email     = document.getElementById('k-email').value.trim();
     let betreff = betreffSelect ? betreffSelect.value : '';
+    const istFeedback = betreff === 'Feedback';
+
+    // Sternebewertung (nur beim Betreff "Feedback")
+    const sterneInput = form.querySelector('input[name="bewertung"]:checked');
+    const sterne      = sterneInput ? Number(sterneInput.value) : 0;
+
     const betreffDetail = document.getElementById('k-betreff-detail');
     if (betreff === 'Kontaktaufnahme') {
       betreff = (betreffDetail && betreffDetail.value.trim()) || 'Kontaktaufnahme';
+    } else if (istFeedback) {
+      betreff = `Feedback – ${sterne}/5 Sterne`;
     }
     if (!betreff) betreff = 'Kontaktanfrage NFCunnect';
     const nachricht = textarea.value.trim();
@@ -488,8 +505,15 @@ function initKontakt() {
       return;
     }
 
+    if (istFeedback && !sterne) {
+      status.textContent = 'Bitte wähle eine Bewertung von 1 bis 5 Sternen.';
+      status.className   = 'form-status err';
+      return;
+    }
+
     if (!WEB3FORMS_KEY || WEB3FORMS_KEY === 'DEIN-ACCESS-KEY') {
-      const body = `Name: ${name}\nE-Mail: ${email}\n\n${nachricht}`;
+      const bewertungZeile = istFeedback ? `Bewertung: ${sterne} von 5 Sternen\n` : '';
+      const body = `Name: ${name}\nE-Mail: ${email}\n${bewertungZeile}\n${nachricht}`;
       window.location.href = `mailto:${MAIL}?subject=${encodeURIComponent(betreff)}&body=${encodeURIComponent(body)}`;
       status.textContent = 'Dein E-Mail-Programm öffnet sich.';
       status.className   = 'form-status ok';
@@ -500,19 +524,23 @@ function initKontakt() {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Senden …';
 
+    const payload = {
+      access_key: WEB3FORMS_KEY,
+      subject:    `[NFCunnect] ${betreff}`,
+      from_name:  name,
+      name, email,
+      replyto:    email,
+      message:    nachricht,
+      botcheck:   form.botcheck.checked,
+    };
+    // Eigenes Feld, damit die Bewertung in der Mail klar auftaucht
+    if (istFeedback) payload.bewertung = `${sterne} von 5 Sternen`;
+
     try {
       const res  = await fetch('https://api.web3forms.com/submit', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body:    JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject:    `[NFCunnect] ${betreff}`,
-          from_name:  name,
-          name, email,
-          replyto:    email,
-          message:    nachricht,
-          botcheck:   form.botcheck.checked,
-        }),
+        body:    JSON.stringify(payload),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -520,7 +548,7 @@ function initKontakt() {
         status.className   = 'form-status ok';
         form.reset();
         if (counter) counter.textContent = '0 / 500';
-        toggleBetreffDetail();
+        toggleKontaktFelder();
       } else throw new Error(data.message);
     } catch {
       status.textContent = `Senden hat nicht geklappt. Schreib uns direkt: ${MAIL}`;

@@ -678,15 +678,31 @@
               <select id="k-betreff" name="betreff">
                 <option value="Bestellung">Bestellung</option>
                 <option value="Kontaktaufnahme">Kontaktaufnahme</option>
+                <option value="Feedback">Feedback</option>
               </select>
             </div>
             <div class="field" id="betreff-detail-field" hidden>
               <label for="k-betreff-detail">Dein Betreff</label>
               <input type="text" id="k-betreff-detail" name="betreff_detail" placeholder="Worum geht's?" />
             </div>
+            <div class="field" id="feedback-field" hidden>
+              <label id="bewertung-label">Deine Bewertung</label>
+              <div class="rating" role="radiogroup" aria-labelledby="bewertung-label">
+                <input type="radio" id="stern5" name="bewertung" value="5" />
+                <label for="stern5" title="5 von 5 Sternen"><span class="sr-only">5 von 5 Sternen</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.5 9.3l6.5-.9z"/></svg></label>
+                <input type="radio" id="stern4" name="bewertung" value="4" />
+                <label for="stern4" title="4 von 5 Sternen"><span class="sr-only">4 von 5 Sternen</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.5 9.3l6.5-.9z"/></svg></label>
+                <input type="radio" id="stern3" name="bewertung" value="3" />
+                <label for="stern3" title="3 von 5 Sternen"><span class="sr-only">3 von 5 Sternen</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.5 9.3l6.5-.9z"/></svg></label>
+                <input type="radio" id="stern2" name="bewertung" value="2" />
+                <label for="stern2" title="2 von 5 Sternen"><span class="sr-only">2 von 5 Sternen</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.5 9.3l6.5-.9z"/></svg></label>
+                <input type="radio" id="stern1" name="bewertung" value="1" />
+                <label for="stern1" title="1 von 5 Sternen"><span class="sr-only">1 von 5 Sternen</span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.5 9.3l6.5-.9z"/></svg></label>
+              </div>
+            </div>
             <div class="field">
               <label for="k-nachricht">
-                Nachricht
+                <span id="nachricht-label">Nachricht</span>
                 <span class="char-count" id="char-count">0 / 500</span>
               </label>
               <textarea id="k-nachricht" name="nachricht" rows="5" required maxlength="500"></textarea>
