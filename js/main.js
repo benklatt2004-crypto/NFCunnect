@@ -161,10 +161,10 @@ function initTypewriter() {
    ══════════════════════════════ */
 const ORG_VORSTAND = ['Ben Klatt', 'Lara Untersteiner'];
 const ORG_DEPTS = [
-  { name: 'Produktion', icon: 'package',   members: ['Paulina Großschädel', 'Arda Erdem', 'Zoe Kunkel', 'Ayca Kilictas'] },
+  { name: 'Produktion', icon: 'package',   members: ['Paulina Großschädel', 'Arda Erdem', 'Zoe Kunkel'] },
   { name: 'Personal',   icon: 'users',     members: ['Sadja Steinhauer', 'Dilan Incesu'] },
   { name: 'Marketing',  icon: 'megaphone', members: ['Fatih Özdemir', 'Ben Klatt', 'Jule Härtel', 'Annalena Poppe'] },
-  { name: 'Finanzen',   icon: 'wallet',    members: ['Lara Untersteiner', 'Leonard Brüggen', 'Vinzenz Schelmann', 'Nouree Bien'] },
+  { name: 'Finanzen',   icon: 'wallet',    members: ['Lara Untersteiner', 'Leonard Brüggen', 'Nouree Bien'] },
   { name: 'Vertrieb',   icon: 'handshake', members: ['Finn Amelunxen', 'Jonas Wörz'] },
 ];
 
